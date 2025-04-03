@@ -50,12 +50,22 @@ export default Header;
 */
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Logo from './Logo.png';
 import './Header.css'; 
 
 const Header = () => {
     return (
         <header className="header">
             <nav className="navbar">
+                {/* <div className="logo-container"> */}
+                    {/* <Link to="/" className="logo">Blood Donation</Link> */}
+                {/* </div> */}
+                <div className="logo-container">
+                    {/* Add the logo image here */}
+                    <Link to="/">
+                        <img src={Logo} alt="Blood Connect Logo" className="logo" />
+                    </Link>
+                </div>
                 <ul className="nav-list">
                     <li className="nav-item">
                         <Link to="/" className="nav-link">Home</Link>
