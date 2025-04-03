@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Search from './pages/Search';
 import Login from './pages/Login';
 import Donors from './pages/Donors';
+import Register from './pages/Register'; 
 /*import Recipients from './pages/Recipients';*/
 
 /*import About from './pages/About';*/
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/donors" element={<Donors />} />
         
         {/* Uncomment these lines when the components are ready */}
