@@ -1,0 +1,378 @@
+/* src/pages/SearchDonors.css */
+/*
+.search-container {
+    text-align: center;
+    padding: 50px;
+    background-color: #f9f9f9; 
+}
+
+h1 {
+    color: #333; 
+}
+
+.form-group {
+    margin: 20px 0;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold; 
+}
+
+input, select {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em; // Increase font size for better readability 
+}
+
+.search-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    color: white;
+    background-color: #28a745; // Button color 
+    border: none;
+    border-radius: 5px
+}
+*/
+/* styles.css */
+/*
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f9fc;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+input, select {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.donor-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.donor-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 10px;
+    flex: 1 1 calc(30% - 20px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.donor-card h3 {
+    margin: 0;
+}
+
+button {
+    background-color: #e63946;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #d62839;
+}
+*/
+/*
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f9fc;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px; // Increased width for a better layout 
+    margin: auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+input, select {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.donor-list {
+    display: flex;
+    flex-wrap: wrap; // Allows wrapping of donor cards
+    justify-content: space-between; // Spaces out the cards 
+}
+
+.donor-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 10px;
+    flex: 1 1 calc(30% - 20px); // Adjusts width to fit in one line 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s; // Added transition effects 
+}
+
+.donor-card:hover {
+    transform: scale(1.05); // Scale effect on hover 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); // Enhanced shadow on hover 
+}
+
+.donor-card h3 {
+    margin: 0;
+}
+
+button {
+    background-color: #e63946;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s; // Smooth background color change 
+}
+
+button:hover {
+    background-color: #d62839;
+}
+    */
+
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  /* Header styles */
+  header {
+    background-color: #dc2626;
+    color: white;
+    padding: 24px 0;
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .logo h1 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  /* Main content styles */
+  .main-content {
+    padding: 32px 0;
+  }
+  
+  /* Search section styles */
+  .search-section {
+    display: flex;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  
+  
+  .search-grid {
+    display: flex;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  @media (min-width: 768px) {
+    .search-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  .search-input {
+    position: relative;
+  }
+  
+  .input-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    color: #666;
+  }
+  
+  .search-input input,
+  .search-input select {
+    width: 100%;
+    padding: 8px 8px 8px 40px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+  
+  .search-input input:focus,
+  .search-input select:focus {
+    outline: none;
+    border-color: #dc2626;
+  }
+  
+  /* Donors grid styles */
+  .donors-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  @media (min-width: 768px) {
+    .donors-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .donors-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  /* Donor card styles */
+  .donor-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .donor-info {
+    padding: 24px;
+  }
+  
+  .donor-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .donor-image {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .donor-location {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    margin-top: 4px;
+  }
+  
+  .location-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .donor-details {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .detail-label {
+    color: #666;
+  }
+  
+  .blood-type {
+    font-weight: 600;
+    color: #dc2626;
+  }
+  
+  .availability {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #22c55e;
+  }
+  
+  .availability-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .contact-button {
+    width: 100%;
+    margin-top: 16px;
+    padding: 8px;
+    background-color: #dc2626;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+  }
+  
+  .contact-button:hover {
+    background-color: #b91c1c;
+  }    

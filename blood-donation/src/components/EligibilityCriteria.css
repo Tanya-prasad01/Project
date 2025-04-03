@@ -1,0 +1,17 @@
+/* src/components/EligibilityCriteria.css */
+.eligibility-criteria {
+    padding: 50px 0;
+    background-color: #ffffff;
+    text-align: center;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  ul li {
+    margin: 10px 0;
+    font-size: 18px;
+  }
+  

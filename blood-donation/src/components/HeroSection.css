@@ -1,0 +1,22 @@
+.hero {
+    background-image: url('https://via.placeholder.com/1500x600'); /* Replace with real image */
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    padding: 100px 0;
+    color: white;
+  }
+  
+  .cta-button {
+    background-color: #e50000;
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .cta-button:hover {
+    background-color: #d40000;
+  }
+  
