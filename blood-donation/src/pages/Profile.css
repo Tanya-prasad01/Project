@@ -1,0 +1,311 @@
+.profile-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+  
+  .profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .profile-header h1 {
+    color: #333;
+    font-size: 2rem;
+    margin: 0;
+  }
+  
+  .edit-btn {
+    background-color: #982D2A;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+  
+  .edit-btn:hover {
+    background-color: #7a2421;
+  }
+  
+  .profile-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+  }
+  
+  .profile-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+  }
+  
+  .profile-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .avatar-placeholder {
+    width: 100px;
+    height: 100px;
+    background-color: #982D2A;
+    color: white;
+    font-size: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+  }
+  
+  .profile-avatar h2 {
+    margin: 0.5rem 0;
+    color: #333;
+  }
+  
+  .user-role {
+    background-color: #f0f0f0;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: #555;
+  }
+  
+  .user-info {
+    margin-top: 1.5rem;
+  }
+  
+  .info-item {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .info-item:last-child {
+    border-bottom: none;
+  }
+  
+  .info-label {
+    font-weight: bold;
+    color: #555;
+    margin-right: 0.5rem;
+  }
+  
+  .info-value {
+    color: #333;
+  }
+  
+  .blood-type {
+    font-weight: bold;
+    color: #982D2A;
+  }
+  
+  .activity-section {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+  }
+  
+  .activity-section h3 {
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .history-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+  
+  .history-card {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .card-header {
+    background-color: #f8f9fa;
+    padding: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .donation-date, .request-date {
+    font-weight: 500;
+  }
+  
+  .donation-status, .request-status {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+    background-color: #e6f7e6;
+    color: #2c7a2c;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+  
+  .card-body p {
+    margin: 0.5rem 0;
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }
+  
+  .action-btn {
+    background-color: #982D2A;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.3s;
+  }
+  
+  .action-btn:hover {
+    background-color: #7a2421;
+  }
+  
+  /* Edit Form Styles */
+  .edit-form .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .edit-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #555;
+  }
+  
+  .edit-form input,
+  .edit-form select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .edit-form .disabled-input {
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+  }
+  
+  .edit-form small {
+    color: #6c757d;
+    font-size: 0.8rem;
+  }
+  
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .save-btn,
+  .cancel-btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .save-btn {
+    background-color: #982D2A;
+    color: white;
+    border: none;
+  }
+  
+  .save-btn:hover {
+    background-color: #7a2421;
+  }
+  
+  .cancel-btn {
+    background-color: transparent;
+    color: #6c757d;
+    border: 1px solid #ddd;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #f8f9fa;
+  }
+  
+  /* Loading and Error States */
+  .profile-loading,
+  .profile-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+  
+  .spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #982D2A;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  .profile-error button {
+    background-color: #982D2A;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+    font-weight: 500;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    .profile-content {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .profile-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    
+    .form-actions {
+      flex-direction: column;
+    }
+    
+    .history-cards {
+      grid-template-columns: 1fr;
+    }
+  }

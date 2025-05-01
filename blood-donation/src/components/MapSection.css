@@ -1,0 +1,183 @@
+/* src/components/MapSection.css
+.map-section {
+    padding: 3rem 2rem;
+    background-color: #f8f9fa;
+  }
+  
+  .map-section h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+    font-size: 2rem;
+  }
+  
+  .map-container {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+  }
+  
+  .centers-list {
+    margin-top: 2rem;
+  }
+  
+  .centers-list h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+    text-align: center;
+  }
+  
+  .center-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .center-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .center-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .center-card h4 {
+    color: #982D2A;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+  
+  .center-card p {
+    margin-bottom: 0.5rem;
+    color: #555;
+  }
+  
+  .center-card i {
+    margin-right: 8px;
+    color: #982D2A;
+  }
+  
+  .appointment-btn {
+    background-color: #982D2A;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+    width: 100%;
+  }
+  
+  .appointment-btn:hover {
+    background-color: #7a2421;
+  }
+  
+  @media (max-width: 768px) {
+    .center-cards {
+      grid-template-columns: 1fr;
+    }
+    
+    .map-section {
+      padding: 2rem 1rem;
+    }
+  } */
+
+
+
+
+  .map-section {
+    padding: 3rem 2rem;
+    background-color: #f8f9fa;
+  }
+  
+  .map-section h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+    font-size: 2rem;
+  }
+  
+  .map-container {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+  }
+  
+  .centers-list {
+    margin-top: 2rem;
+  }
+  
+  .centers-list h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+    text-align: center;
+  }
+  
+  .center-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .center-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .center-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .center-card h4 {
+    color: #982D2A;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+  
+  .center-card p {
+    margin-bottom: 0.5rem;
+    color: #555;
+  }
+  
+  .center-card i {
+    margin-right: 8px;
+    color: #982D2A;
+  }
+  
+  .appointment-btn {
+    background-color: #982D2A;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+    width: 100%;
+  }
+  
+  .appointment-btn:hover {
+    background-color: #7a2421;
+  }
+  
+  @media (max-width: 768px) {
+    .center-cards {
+      grid-template-columns: 1fr;
+    }
+    
+    .map-section {
+      padding: 2rem 1rem;
+    }
+  }

@@ -163,6 +163,7 @@ button:hover {
     */
 
 /* Reset and base styles */
+/*
 * {
     margin: 0;
     padding: 0;
@@ -182,7 +183,7 @@ button:hover {
     padding: 0 20px;
   }
   
-  /* Header styles */
+ 
   header {
     background-color: #dc2626;
     color: white;
@@ -211,12 +212,12 @@ button:hover {
     font-weight: bold;
   }
   
-  /* Main content styles */
+  
   .main-content {
     padding: 32px 0;
   }
   
-  /* Search section styles */
+  
   .search-section {
     display: flex;
     background-color: white;
@@ -268,7 +269,7 @@ button:hover {
     border-color: #dc2626;
   }
   
-  /* Donors grid styles */
+  
   .donors-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -287,7 +288,7 @@ button:hover {
     }
   }
   
-  /* Donor card styles */
+  
   .donor-card {
     background-color: white;
     border-radius: 8px;
@@ -375,4 +376,164 @@ button:hover {
   
   .contact-button:hover {
     background-color: #b91c1c;
-  }    
+  } 
+    */
+    
+  /* Search.css */
+
+.search-page {
+  background-color: #f7f8fc;
+  min-height: 100vh;
+  padding: 690px 40px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.search-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  background-color: #dfd8d9;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  margin-bottom: 30px;
+}
+
+.search-header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.filter {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter input,
+.filter select {
+  width: 100%;
+  padding: 10px 12px 10px 35px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.filter input:focus,
+.filter select:focus {
+  outline: none;
+  border-color: #d90429;
+}
+
+.filter .icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #999;
+}
+
+.donor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 25px;
+}
+
+.donor-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.donor-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 2px solid #d90429;
+}
+
+.donor-card h3 {
+  margin: 10px 0 5px;
+  font-size: 18px;
+  color: #333;
+}
+
+.donor-card p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.contact-btn {
+  margin-top: 12px;
+  padding: 10px 16px;
+  background-color: #d90429;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.contact-btn:hover {
+  background-color: #b20321;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  gap: 8px;
+}
+
+.pagination button {
+  padding: 8px 14px;
+  border: 1px solid #ccc;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.pagination button.active,
+.pagination button:hover {
+  background-color: #d90429;
+  color: white;
+  border-color: #d90429;
+}
+
+.pagination button:disabled {
+  background: #eee;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.no-results {
+  font-size: 18px;
+  color: #888;
+  text-align: center;
+  grid-column: 1 / -1;
+  margin-top: 40px;
+}
+  

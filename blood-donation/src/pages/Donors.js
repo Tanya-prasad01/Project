@@ -1,21 +1,22 @@
-// src/App.js
+
 import React from 'react';
-import Header from '../components/Header';
+// import Header from '../components/Header';
 import './Donors.css';
 import HeroSection from '../components/HeroSection';
 import DonationProcess from '../components/DonationProcess';
 import EligibilityCriteria from '../components/EligibilityCriteria';
-//import MapSection from '../components/MapSection';
+import MapSection from '../components/MapSection';
 
-function App() {
+function Donors() {
   return (
     <div className="App">
+      {/* <Header /> */}
       <HeroSection />
       <DonationProcess />
       <EligibilityCriteria />
-      {/* <MapSection /> */}
+      <MapSection />
     </div>
   );
 }
 
-export default App;
+export default Donors;
