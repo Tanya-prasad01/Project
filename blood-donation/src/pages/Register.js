@@ -483,54 +483,54 @@ const Register = () => {
 
     console.log("Sending registration data:", registrationData);
 
-    try {
-      console.log("About to send registration request");
-      const res = await axiosInstance({
-        method: 'post',
-        url: '/auth/register', // <-- CHANGE HERE: Remove the http://localhost:5000 part
-        // url: 'http://localhost:5000/api/auth/register',
-        data: registrationData,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      console.log("Registration Success:", res.data);
-      setIsLoader(false);
-      navigate("/login");
-    } catch (error) {
-      console.error("Registration Failed:", error);
-      console.log("Error details:", JSON.stringify(error, null, 2));
-      setErrorMessage("Registration failed. Please try again later.");
-      setIsLoader(false);
-    }
-  };
-
   //   try {
-  //     // const res = await axiosInstance.post("http://localhost:5000/api/auth/register", registrationData);
-  //     const res = await axiosInstance.post("/auth/register", registrationData);
+  //     console.log("About to send registration request");
+  //     const res = await axiosInstance({
+  //       method: 'post',
+  //       url: '/auth/register', // <-- CHANGE HERE: Remove the http://localhost:5000 part
+  //       // url: 'http://localhost:5000/api/auth/register',
+  //       data: registrationData,
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       }
+  //     });
   //     console.log("Registration Success:", res.data);
   //     setIsLoader(false);
   //     navigate("/login");
   //   } catch (error) {
   //     console.error("Registration Failed:", error);
-      
-  //     if (error.response) {
-  //       // The server responded with an error status
-  //       console.log('Server responded with:', error.response.status, error.response.data);
-  //       setErrorMessage(error.response.data.message || "Registration failed");
-  //     } else if (error.request) {
-  //       // The request was made but no response was received
-  //       console.log('No response received:', error.request);
-  //       setErrorMessage('No response from server. Please check your connection.');
-  //     } else {
-  //       // Something happened in setting up the request
-  //       console.log('Error setting up request:', error.message);
-  //       setErrorMessage('Error setting up request: ' + error.message);
-  //     }
-      
+  //     console.log("Error details:", JSON.stringify(error, null, 2));
+  //     setErrorMessage("Registration failed. Please try again later.");
   //     setIsLoader(false);
   //   }
   // };
+
+    try {
+      // const res = await axiosInstance.post("http://localhost:5000/api/auth/register", registrationData);
+      const res = await axiosInstance.post("/auth/register", registrationData);
+      console.log("Registration Success:", res.data);
+      setIsLoader(false);
+      navigate("/login");
+    } catch (error) {
+      console.error("Registration Failed:", error);
+      
+      if (error.response) {
+        // The server responded with an error status
+        console.log('Server responded with:', error.response.status, error.response.data);
+        setErrorMessage(error.response.data.message || "Registration failed");
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.log('No response received:', error.request);
+        setErrorMessage('No response from server. Please check your connection.');
+      } else {
+        // Something happened in setting up the request
+        console.log('Error setting up request:', error.message);
+        setErrorMessage('Error setting up request: ' + error.message);
+      }
+      
+      setIsLoader(false);
+    }
+  };
 
   return (
     <div className="main-sign-up">

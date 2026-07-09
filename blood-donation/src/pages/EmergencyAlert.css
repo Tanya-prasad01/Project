@@ -1,0 +1,72 @@
+/* components/EmergencyNotifications.css
+.emergency-notifications {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #fff9f9;
+    border: 1px solid #ffcccc;
+  }
+  
+  .emergency-header {
+    color: #e74c3c;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+  
+  .emergency-blood-type {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #e74c3c;
+  }
+  
+  .emergency-card {
+    border-left: 4px solid #e74c3c;
+    transition: transform 0.2s;
+  }
+  
+  .emergency-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .see-all-link {
+    color: #e74c3c;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .see-all-link:hover {
+    text-decoration: underline;
+  } */
+
+
+
+
+
+
+  .emergency-alert-page {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 16px;
+}
+
+.alert-form input,
+.alert-form textarea,
+.alert-form button {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 8px;
+}
+
+.urgent-requests-list {
+  margin-top: 30px;
+}
+
+.request-card {
+  border: 1px solid #ccc;
+  padding: 12px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  background: #fff6f6;
+}

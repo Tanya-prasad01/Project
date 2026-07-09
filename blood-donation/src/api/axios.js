@@ -15,15 +15,26 @@
 
 
 // src/api/axios.js
+// import axios from 'axios';
+
+// const axiosInstance = axios.create({
+//   baseURL: 'http://localhost:5000/api', // matches /api/auth/login etc.
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+//   // Remove withCredentials for now
+//   // withCredentials: true, // if you plan to send cookies
+// });
+
+// export default axiosInstance;
+
+
+//final
 import axios from 'axios';
 
-const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000/api', // matches /api/auth/login etc.
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  // Remove withCredentials for now
-  // withCredentials: true, // if you plan to send cookies
+const api = axios.create({
+  baseURL: 'http://localhost:5000/api', // Change if deployed
 });
 
-export default axiosInstance;
+export default api;
+

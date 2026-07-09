@@ -1,53 +1,101 @@
-// // const chatbotRoutes = require('./routes/chatbotRoutes');
-// // const chatbotRoutes = require('./routes/chatbotRoutes');
+// // // const chatbotRoutes = require('./routes/chatbotRoutes');
+// // // const chatbotRoutes = require('./routes/chatbotRoutes');
 
-// // const express = require('express');
-// // const cors = require('cors');
-// // const dotenv = require('dotenv');
-// // const mongoose = require('mongoose');
-// // const authRoutes = require('./routes/authRoutes');
-// // const bloodRoutes = require('./routes/bloodRoutes');
+// // // const express = require('express');
+// // // const cors = require('cors');
+// // // const dotenv = require('dotenv');
+// // // const mongoose = require('mongoose');
+// // // const authRoutes = require('./routes/authRoutes');
+// // // const bloodRoutes = require('./routes/bloodRoutes');
 
-// // dotenv.config();
-// // const app = express();
+// // // dotenv.config();
+// // // const app = express();
 
-// // // Middleware
-// // app.use(cors());
-// // app.use(express.json());
+// // // // Middleware
+// // // app.use(cors());
+// // // app.use(express.json());
 
-// // // Routes
-// // app.use('/api/auth', authRoutes);
-// // app.use('/api/blood', bloodRoutes);
+// // // // Routes
+// // // app.use('/api/auth', authRoutes);
+// // // app.use('/api/blood', bloodRoutes);
 
-// // // Connect to MongoDB
-// // mongoose.connect(process.env.MONGO_URI)
-// //   .then(() => {
-// //     console.log('MongoDB Connected');
+// // // // Connect to MongoDB
+// // // mongoose.connect(process.env.MONGO_URI)
+// // //   .then(() => {
+// // //     console.log('MongoDB Connected');
     
-// //     // Start server
-// //     const PORT = process.env.PORT || 5000;
-// //     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-// //   })
-// //   .catch(err => {
-// //     console.error('MongoDB connection error:', err);
-// //     process.exit(1);
-// //   });
+// // //     // Start server
+// // //     const PORT = process.env.PORT || 5000;
+// // //     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// // //   })
+// // //   .catch(err => {
+// // //     console.error('MongoDB connection error:', err);
+// // //     process.exit(1);
+// // //   });
 
-// // // Add chatbot routes
-// // app.use('/api/chatbot', chatbotRoutes);
+// // // // Add chatbot routes
+// // // app.use('/api/chatbot', chatbotRoutes);
 
-// // // Add chatbot routes
-// // app.use('/api/chatbot', chatbotRoutes);
-// //   // server.js
+// // // // Add chatbot routes
+// // // app.use('/api/chatbot', chatbotRoutes);
+// // //   // server.js
+// // // const express = require('express');
+// // // const cors = require('cors');
+// // // const dotenv = require('dotenv');
+// // // const mongoose = require('mongoose');
+// // // const authRoutes = require('./routes/authRoutes');
+// // // const donorRoutes = require('./routes/donorRoutes');
+// // // const bloodRequestRoutes = require('./routes/bloodRequestRoutes');
+// // // const chatRoutes = require('./routes/chatRoutes');
+// // // const alertRoutes = require('./routes/alertRoutes');
+// // // const path = require('path');
+
+// // // // Load environment variables
+// // // dotenv.config();
+
+// // // // Create Express app
+// // // const app = express();
+
+// // // // Middleware
+// // // app.use(cors());
+// // // app.use(express.json());
+
+// // // // Routes
+// // // app.use('/api/auth', authRoutes);
+// // // app.use('/api/donors', donorRoutes);
+// // // app.use('/api/blood-requests', bloodRequestRoutes);
+// // // app.use('/api/chat', chatRoutes);
+// // // app.use('/api/alerts', alertRoutes);
+
+// // // // MongoDB Connection
+// // // mongoose.connect(process.env.MONGO_URI)
+// // //   .then(() => console.log('MongoDB connected'))
+// // //   .catch((err) => console.error('MongoDB connection error:', err));
+
+// // // // Serve static assets in production
+// // // if (process.env.NODE_ENV === 'production') {
+// // //   app.use(express.static(path.join(__dirname, 'client/build')));
+  
+// // //   app.get('*', (req, res) =>
+// // //     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+// // //   );
+// // // }
+
+// // // // Start server
+// // // const PORT = process.env.PORT || 5000;
+// // // app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+
+// // //server.js
 // // const express = require('express');
 // // const cors = require('cors');
 // // const dotenv = require('dotenv');
 // // const mongoose = require('mongoose');
-// // const authRoutes = require('./routes/authRoutes');
-// // const donorRoutes = require('./routes/donorRoutes');
-// // const bloodRequestRoutes = require('./routes/bloodRequestRoutes');
-// // const chatRoutes = require('./routes/chatRoutes');
-// // const alertRoutes = require('./routes/alertRoutes');
+// // const bcrypt = require('bcryptjs');
+// // const jwt = require('jsonwebtoken');
+// // const { v4: uuidv4 } = require('uuid');
+// // const User = require('./models/User');
 // // const path = require('path');
 
 // // // Load environment variables
@@ -57,20 +105,1363 @@
 // // const app = express();
 
 // // // Middleware
-// // app.use(cors());
+// // //  app.use(cors());
+// // app.use(cors({
+// //   origin: 'http://localhost:3000', // Your frontend URL
+// //   credentials: true // Allow credentials
+// // }));
 // // app.use(express.json());
-
-// // // Routes
-// // app.use('/api/auth', authRoutes);
-// // app.use('/api/donors', donorRoutes);
-// // app.use('/api/blood-requests', bloodRequestRoutes);
-// // app.use('/api/chat', chatRoutes);
-// // app.use('/api/alerts', alertRoutes);
 
 // // // MongoDB Connection
 // // mongoose.connect(process.env.MONGO_URI)
 // //   .then(() => console.log('MongoDB connected'))
 // //   .catch((err) => console.error('MongoDB connection error:', err));
+
+// // // Middleware to protect routes
+// // const protect = async (req, res, next) => {
+// //   let token;
+
+// //   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+// //     try {
+// //       // Get token from header
+// //       token = req.headers.authorization.split(' ')[1];
+
+// //       // Verify token
+// //       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+// //       // Get user from the token
+// //       req.user = await User.findById(decoded.id).select('-password');
+
+// //       next();
+// //     } catch (error) {
+// //       console.error('Auth middleware error:', error);
+// //       res.status(401).json({ message: 'Not authorized, token failed' });
+// //     }
+// //   }
+
+// //   if (!token) {
+// //     res.status(401).json({ message: 'Not authorized, no token' });
+// //   }
+// // };
+
+// // // Generate JWT
+// // const generateToken = (id) => {
+// //   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+// // };
+
+// // // ====================
+// // // AUTH ROUTES
+// // // ====================
+
+// // // Registration
+// // app.post('/api/auth/register', async (req, res) => {
+// //   try {
+// //     const { name, email, phone, location, password, bloodGroup, role } = req.body;
+
+// //     if (!name || !email || !phone || !location || !password || !bloodGroup || !role) {
+// //       return res.status(400).json({ message: 'Please enter all fields' });
+// //     }
+
+// //     const existingUser = await User.findOne({ email });
+// //     if (existingUser) return res.status(400).json({ message: 'User already exists' });
+
+// //     const hashedPassword = await bcrypt.hash(password, 10);
+
+// //     const newUser = new User({
+// //       name,
+// //       email,
+// //       phone,
+// //       location,
+// //       password: hashedPassword,
+// //       bloodGroup,
+// //       role,
+// //       coordinates: req.body.coordinates || null,
+// //       availability: 'Available',
+// //       lastDonation: null,
+// //       emergencyAlerts: true
+// //     });
+
+// //     await newUser.save();
+
+// //     res.status(201).json({ 
+// //       message: 'User registered successfully',
+// //       user: {
+// //         _id: newUser._id,
+// //         name: newUser.name,
+// //         email: newUser.email,
+// //         role: newUser.role,
+// //         bloodGroup: newUser.bloodGroup,
+// //         location: newUser.location,
+// //         phone: newUser.phone,
+// //         token: generateToken(newUser._id)
+// //       }
+// //     });
+// //   } catch (error) {
+// //     console.error('Registration error:', error);
+// //     res.status(500).json({ message: 'Server error' });
+// //   }
+// // });
+
+// // // Login
+// // app.post('/api/auth/login', async (req, res) => {
+// //   try {
+// //     const { email, password } = req.body;
+
+// //     if (!email || !password)
+// //       return res.status(400).json({ message: 'Please enter all fields' });
+
+// //     const user = await User.findOne({ email });
+// //     if (!user) return res.status(400).json({ message: 'Invalid credentials' });
+
+// //     const isMatch = await bcrypt.compare(password, user.password);
+// //     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+
+// //     res.status(200).json({
+// //       message: 'Login successful',
+// //       token: generateToken(user._id),
+// //       user: {
+// //         id: user._id,
+// //         name: user.name,
+// //         email: user.email,
+// //         phone: user.phone,
+// //         location: user.location,
+// //         bloodGroup: user.bloodGroup,
+// //         role: user.role,
+// //       },
+// //     });
+// //   } catch (error) {
+// //     console.error('Login error:', error);
+// //     res.status(500).json({ message: 'Server error' });
+// //   }
+// // });
+
+// // // Get user profile
+// // app.get('/api/auth/profile', protect, async (req, res) => {
+// //   try {
+// //     const user = await User.findById(req.user._id).select('-password');
+    
+// //     if (user) {
+// //       res.json(user);
+// //     } else {
+// //       res.status(404).json({ message: 'User not found' });
+// //     }
+// //   } catch (error) {
+// //     console.error('Get profile error:', error);
+// //     res.status(500).json({ message: error.message });
+// //   }
+// // });
+
+// // // Update user profile
+// // app.put('/api/auth/profile', protect, async (req, res) => {
+// //   try {
+// //     const user = await User.findById(req.user._id);
+    
+// //     if (!user) {
+// //       return res.status(404).json({ message: 'User not found' });
+// //     }
+    
+// //     user.name = req.body.name || user.name;
+// //     user.location = req.body.location || user.location;
+// //     user.phone = req.body.phone || user.phone;
+    
+// //     // Only donors can update this
+// //     if (user.role === 'donor') {
+// //       user.availability = req.body.availability || user.availability;
+// //     }
+    
+// //     // Only update bloodGroup if provided
+// //     if (req.body.bloodGroup) {
+// //       user.bloodGroup = req.body.bloodGroup;
+// //     }
+    
+// //     // Only update coordinates if provided
+// //     if (req.body.coordinates) {
+// //       user.coordinates = req.body.coordinates;
+// //     }
+    
+// //     // Update emergencyAlerts preference if provided
+// //     if (req.body.emergencyAlerts !== undefined) {
+// //       user.emergencyAlerts = req.body.emergencyAlerts;
+// //     }
+    
+// //     // Update password if provided
+// //     if (req.body.password) {
+// //       user.password = await bcrypt.hash(req.body.password, 10);
+// //     }
+    
+// //     const updatedUser = await user.save();
+    
+// //     res.json({
+// //       _id: updatedUser._id,
+// //       name: updatedUser.name,
+// //       email: updatedUser.email,
+// //       role: updatedUser.role,
+// //       bloodGroup: updatedUser.bloodGroup,
+// //       location: updatedUser.location,
+// //       phone: updatedUser.phone,
+// //       availability: updatedUser.availability,
+// //       coordinates: updatedUser.coordinates,
+// //       emergencyAlerts: updatedUser.emergencyAlerts
+// //     });
+// //   } catch (error) {
+// //     console.error('Update profile error:', error);
+// //     res.status(500).json({ message: error.message });
+// //   }
+// // });
+
+// // // ====================
+// // // DONOR ROUTES
+// // // ====================
+
+// // // Search for donors
+// // app.get('/api/donors/search', async (req, res) => {
+// //   try {
+// //     const { bloodGroup, location, availability } = req.query;
+    
+// //     // Base query: only return donors
+// //     const query = { role: 'donor' };
+    
+// //     // Add filters if provided
+// //     if (bloodGroup) {
+// //       query.bloodGroup = bloodGroup;
+// //     }
+    
+// //     if (location) {
+// //       // Simple text-based location search
+// //       query.location = { $regex: location, $options: 'i' };
+// //     }
+    
+// //     if (availability) {
+// //       query.availability = availability;
+// //     }
+    
+// //     const donors = await User.find(query)
+// //       .select('name bloodGroup location availability lastDonation phone')
+// //       .sort({ lastDonation: 1 }); // Sort by donation date (oldest first)
+    
+// //     res.json(donors);
+// //   } catch (error) {
+// //     console.error('Search donors error:', error);
+// //     res.status(500).json({ message: error.message });
+// //   }
+// // });
+
+// // // ====================
+// // // BLOOD DONATION ROUTES
+// // // ====================
+
+// // // Schedule a donation
+// // app.post('/api/blood/donate', protect, async (req, res) => {
+// //   try {
+// //     const { name, age, bloodType, date, phone } = req.body;
+    
+// //     // Validate age
+// //     if (parseInt(age) < 18 || parseInt(age) > 65) {
+// //       return res.status(400).json({ message: 'Age must be between 18 and 65 to donate blood.' });
+// //     }
+
+// //     // In a real app with MongoDB, you would create a Donation model
+// //     // For now, just return success with the donation data
+// //     res.status(201).json({
+// //       id: Date.now().toString(),
+// //       donor: req.user._id,
+// //       name,
+// //       age,
+// //       bloodType,
+// //       date,
+// //       phone,
+// //       status: 'Scheduled',
+// //       createdAt: new Date().toISOString()
+// //     });
+// //   } catch (error) {
+// //     console.error('Donation error:', error);
+// //     res.status(500).json({ message: 'Server error' });
+// //   }
+// // });
+
+// // // ====================
+// // // BLOOD REQUEST ROUTES
+// // // ====================
+
+// // // All blood requests (temporary in-memory storage)
+// // const bloodRequests = [];
+
+// // // Create a blood request
+// // app.post('/api/blood/request', async (req, res) => {
+// //   try {
+// //     const {
+// //       name,
+// //       bloodGroup,
+// //       quantity,
+// //       contact,
+// //       hospital,
+// //       location,
+// //       reason,
+// //       isUrgent
+// //     } = req.body;
+
+// //     // Create a new request object
+// //     const newRequest = {
+// //       id: Date.now().toString(),
+// //       name,
+// //       bloodGroup,
+// //       quantity,
+// //       contact,
+// //       hospital,
+// //       location,
+// //       reason,
+// //       isUrgent,
+// //       date: new Date().toISOString(),
+// //       status: 'Pending'
+// //     };
+    
+// //     // Store in our temporary array
+// //     bloodRequests.push(newRequest);
+
+// //     // If this is an urgent request, we would send alerts to matching donors
+// //     // (this would be implemented in a real app with proper models and notifications)
+// //     if (isUrgent) {
+// //       console.log(`Urgent blood request for ${bloodGroup} at ${hospital}`);
+// //       // Find matching donors and alert them
+// //     }
+
+// //     res.status(200).json(newRequest);
+// //   } catch (error) {
+// //     console.error('Blood request error:', error);
+// //     res.status(500).json({ message: 'Server error' });
+// //   }
+// // });
+
+// // // Get all blood requests
+// // app.get('/api/blood/requests', async (req, res) => {
+// //   try {
+// //     res.json(bloodRequests);
+// //   } catch (error) {
+// //     console.error('Get blood requests error:', error);
+// //     res.status(500).json({ message: 'Server error' });
+// //   }
+// // });
+
+// // // ====================
+// // // CHATBOT ROUTES
+// // // ====================
+
+// // // Chatbot knowledge base
+// // const knowledgeBase = {
+// //   greeting: [
+// //     "Hello! I'm your Blood Donation Assistant. How can I help you today?",
+// //     "Hi there! I can help you with blood donation questions. What would you like to know?"
+// //   ],
+  
+// //   eligibility: [
+// //     "To donate blood, you generally need to be at least 18 years old, weigh at least 110 pounds, and be in good health. There are some medical conditions and medications that may affect eligibility."
+// //   ],
+  
+// //   process: [
+// //     "The blood donation process is simple: 1) Register and complete a health screening, 2) The actual donation takes about 10-15 minutes, 3) Afterward, you'll rest and enjoy refreshments for 15 minutes before leaving."
+// //   ],
+  
+// //   bloodTypes: [
+// //     "There are 8 different blood types: A+, A-, B+, B-, AB+, AB-, O+, and O-. Type O- is the universal donor, while AB+ is the universal recipient."
+// //   ],
+  
+// //   frequency: [
+// //     "Most people can donate whole blood every 56 days (8 weeks). Platelets can be donated every 7 days up to 24 times per year."
+// //   ],
+  
+// //   preparation: [
+// //     "Before donating: 1) Drink plenty of water, 2) Eat a healthy meal, 3) Avoid fatty foods, 4) Get a good night's sleep, 5) Bring a valid ID."
+// //   ],
+  
+// //   benefits: [
+// //     "Donating blood helps save lives, provides a free health screening, burns calories, reduces the risk of heart disease, and gives a sense of contribution to your community."
+// //   ],
+  
+// //   timeRequired: [
+// //     "The entire process takes about 1 hour, though the actual blood donation only takes about 10-15 minutes."
+// //   ],
+  
+// //   finding: [
+// //     "You can find donors by using our 'Search' feature. You can search by blood type, location, and availability."
+// //   ],
+  
+// //   emergency: [
+// //     "For emergency blood needs, you can create an urgent request through our system, which will alert compatible donors in your area."
+// //   ],
+  
+// //   requestingBlood: [
+// //     "To request blood, go to the 'Request Blood' page, fill out the form with details about the patient and blood requirements, and submit your request."
+// //   ],
+  
+// //   donationAppointment: [
+// //     "To schedule a donation, go to the 'Donate' page and fill out the appointment form. You'll receive a confirmation and reminders."
+// //   ],
+  
+// //   fallback: [
+// //     "I'm sorry, I don't have information on that topic. Would you like to ask about eligibility, the donation process, blood types, or how to request blood?",
+// //     "I don't understand that question. Try asking about blood donation eligibility, the donation process, or how to use our platform."
+// //   ]
+// // };
+
+// // // Intent matching patterns
+// // const patterns = {
+// //   greeting: /\b(hi|hello|hey|greetings|howdy|good (morning|afternoon|evening))\b/i,
+// //   eligibility: /\b(eligib|requirements|who can donate|can i donate|qualif|criteria)\b/i,
+// //   process: /\b(process|how (to|does) donat|procedure|steps|what happens)\b/i,
+// //   bloodTypes: /\b(blood type|types of blood|different blood|compatible|o\-|a\+|b\-)\b/i,
+// //   frequency: /\b(how (often|frequently)|how many times|frequency|wait between)\b/i,
+// //   preparation: /\b(prepare|ready|before donat|preparation|what should i do)\b/i,
+// //   benefits: /\b(benefit|advantage|good|positive|help|impact)\b/i,
+// //   timeRequired: /\b(how long|time|duration|how much time|minutes|hours)\b/i,
+// //   finding: /\b(find|search|locate|available|donors near|where)\b/i,
+// //   emergency: /\b(emergency|urgent|critical|immediate|quickly)\b/i,
+// //   requestingBlood: /\b(request|need blood|get blood|receive|recipient)\b/i,
+// //   donationAppointment: /\b(schedule|appointment|book|when can i|sign up)\b/i
+// // };
+
+// // // Match user input to intent
+// // const matchIntent = (input) => {
+// //   for (const [intent, pattern] of Object.entries(patterns)) {
+// //     if (pattern.test(input)) {
+// //       return intent;
+// //     }
+// //   }
+// //   return 'fallback';
+// // };
+
+// // // Generate bot response
+// // const generateResponse = (intent) => {
+// //   const responses = knowledgeBase[intent] || knowledgeBase.fallback;
+// //   return responses[Math.floor(Math.random() * responses.length)];
+// // };
+
+// // // Store chatbot conversations (temporary in-memory storage)
+// // const chatbotConversations = [];
+
+// // // Chat with the bot
+// // app.post('/api/chatbot/chat', async (req, res) => {
+// //   try {
+// //     const { message, sessionId } = req.body;
+// //     let conversation;
+    
+// //     // Get or create conversation
+// //     if (sessionId) {
+// //       conversation = chatbotConversations.find(c => c.sessionId === sessionId);
+// //     }
+    
+// //     if (!conversation) {
+// //       // Create new conversation
+// //       conversation = {
+// //         sessionId: sessionId || uuidv4(),
+// //         userId: req.user ? req.user._id : null,
+// //         messages: [],
+// //         createdAt: new Date().toISOString(),
+// //         lastActivity: new Date().toISOString()
+// //       };
+// //       chatbotConversations.push(conversation);
+// //     }
+    
+// //     // Add user message
+// //     conversation.messages.push({
+// //       sender: 'user',
+// //       content: message,
+// //       timestamp: new Date().toISOString()
+// //     });
+    
+// //     // Generate bot response
+// //     const intent = matchIntent(message);
+// //     const botResponse = generateResponse(intent);
+    
+// //     // Add bot response
+// //     conversation.messages.push({
+// //       sender: 'bot',
+// //       content: botResponse,
+// //       timestamp: new Date().toISOString()
+// //     });
+    
+// //     // Update last activity
+// //     conversation.lastActivity = new Date().toISOString();
+    
+// //     res.json({
+// //       sessionId: conversation.sessionId,
+// //       response: botResponse,
+// //       messages: conversation.messages
+// //     });
+// //   } catch (error) {
+// //     console.error('Chatbot error:', error);
+// //     res.status(500).json({ message: error.message });
+// //   }
+// // });
+
+// // // Get conversation history
+// // app.get('/api/chatbot/conversation/:sessionId', async (req, res) => {
+// //   try {
+// //     const { sessionId } = req.params;
+    
+// //     const conversation = chatbotConversations.find(c => c.sessionId === sessionId);
+    
+// //     if (!conversation) {
+// //       return res.status(404).json({ message: 'Conversation not found' });
+// //     }   
+// //     res.json({
+// //       sessionId: conversation.sessionId,
+// //       messages: conversation.messages
+// //     });
+// //   } catch (error) {
+// //     console.error('Get conversation error:', error);
+// //     res.status(500).json({ message: error.message });
+// //   }
+// // });
+// // // Serve static assets in production
+// // if (process.env.NODE_ENV === 'production') {
+// //   app.use(express.static(path.join(__dirname, 'client/build')));
+// //   app.get('*', (req, res) =>
+// //     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+// //   );
+// // }
+// // const PORT = process.env.PORT || 5000;
+// // app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+
+
+
+
+// // const express = require('express');
+// // const cors = require('cors');
+// // const dotenv = require('dotenv');
+// // const mongoose = require('mongoose');
+// // const bcrypt = require('bcryptjs');
+// // const jwt = require('jsonwebtoken');
+// // const { v4: uuidv4 } = require('uuid');
+// // const path = require('path');
+
+// // // Load environment variables
+// // dotenv.config();
+
+// // // Create Express app
+// // const app = express();
+
+// // // Middleware
+// // // app.use(cors({
+// // //   origin: '*', // Allow all origins for testing
+// // //   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+// // //   allowedHeaders: ['Content-Type', 'Authorization']
+// // // }));
+// // app.use(cors())
+// // app.use(express.json());
+
+// // // MongoDB Connection
+
+// // mongoose.connect(process.env.MONGO_URI)
+// //   .then(() => {
+// //     console.log('MongoDB connected successfully');
+// //     console.log('Connected to database:', mongoose.connection.db.databaseName);
+// //   })
+// //   .catch((err) => {
+// //     console.error('MongoDB connection error:', err);
+// //     console.error('Using MONGO_URI:', process.env.MONGO_URI ? 'URI is set' : 'URI is not set');
+// //     if (err.name === 'MongoNetworkError') {
+// //       console.error('Could not connect to MongoDB. Check your internet connection and MongoDB URI.');
+// //     }
+// //   });
+
+// // /* mongoose.connect(process.env.MONGO_URI)
+// // //   .then(() => console.log('MongoDB connected successfully'))
+// // //   .catch((err) => {
+// // //     console.error('MongoDB connection error:', err);
+// // //     if (err.name === 'MongoNetworkError') {
+// // //       console.error('Could not connect to MongoDB. Check your internet connection and MongoDB URI.');
+// // //     }
+// // //   });
+// // */
+
+// // // User Model Schema
+// // const userSchema = new mongoose.Schema({
+// //   name: { 
+// //     type: String, 
+// //     required: true 
+// //   },
+// //   email: { 
+// //     type: String, 
+// //     required: true, 
+// //     unique: true 
+// //   },
+// //   phone: { 
+// //     type: String, 
+// //     required: true 
+// //   },
+// //   location: { 
+// //     type: String, 
+// //     required: true 
+// //   },
+// //   password: { 
+// //     type: String, 
+// //     required: true 
+// //   },
+// //   bloodGroup: { 
+// //     type: String, 
+// //     required: true 
+// //   },
+// //   role: { 
+// //     type: String, 
+// //     enum: ['donor', 'receiver'], 
+// //     required: true 
+// //   },
+// //   lastDonation: {
+// //     type: Date,
+// //     default: null
+// //   },
+// //   availability: {
+// //     type: String,
+// //     default: 'Available'
+// //   },
+// //   coordinates: {
+// //     type: {
+// //       lat: Number,
+// //       lng: Number
+// //     },
+// //     default: null
+// //   },
+// //   emergencyAlerts: {
+// //     type: Boolean,
+// //     default: true
+// //   },
+// //   createdAt: {
+// //     type: Date,
+// //     default: Date.now
+// //   }
+// // });
+
+// // const User = mongoose.model('User', userSchema);
+
+// // // Middleware to protect routes
+// // const protect = async (req, res, next) => {
+// //   let token;
+
+// //   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+// //     try {
+// //       // Get token from header
+// //       token = req.headers.authorization.split(' ')[1];
+// //       console.log('Token received:', token);
+
+// //       // Verify token
+// //       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+// //       console.log('Token verified, user ID:', decoded.id);
+
+// //       // Get user from the token
+// //       req.user = await User.findById(decoded.id).select('-password');
+// //       if (!req.user) {
+// //         console.log('User not found with ID:', decoded.id);
+// //         return res.status(404).json({ message: 'User not found' });
+// //       }
+
+// //       next();
+// //     } catch (error) {
+// //       console.error('Auth middleware error:', error);
+// //       res.status(401).json({ message: 'Not authorized, token failed' });
+// //     }
+// //   } else {
+// //     console.log('No authorization header found');
+// //     res.status(401).json({ message: 'Not authorized, no token' });
+// //   }
+// // };
+
+// // // Generate JWT
+// // const generateToken = (id) => {
+// //   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+// // };
+
+// // // ====================
+// // // AUTH ROUTES
+// // // ====================
+
+// // // Registration
+// // app.post('/api/auth/register', async (req, res) => {
+// //   try {
+// //     console.log('Registration request received:', req.body);
+    
+// //     const { name, email, phone, location, password, bloodGroup, role } = req.body;
+
+// //     if (!name || !email || !phone || !location || !password || !bloodGroup || !role) {
+// //       console.log('Missing fields:', { 
+// //         name: !name, 
+// //         email: !email, 
+// //         phone: !phone, 
+// //         location: !location, 
+// //         password: !password, 
+// //         bloodGroup: !bloodGroup, 
+// //         role: !role 
+// //       });
+// //       return res.status(400).json({ message: 'Please enter all fields' });
+// //     }
+
+// //     const existingUser = await User.findOne({ email });
+// //     console.log('User already exists?', !!existingUser);
+    
+// //     if (existingUser) {
+// //       return res.status(400).json({ message: 'User already exists' });
+// //     }
+
+// //     // Create new user
+// //     const hashedPassword = await bcrypt.hash(password, 10);
+// //     console.log('Password hashed successfully');
+
+// //     const newUser = new User({
+// //       name,
+// //       email,
+// //       phone,
+// //       location,
+// //       password: hashedPassword,
+// //       bloodGroup,
+// //       role,
+// //       availability: 'Available',
+// //       lastDonation: null,
+// //       emergencyAlerts: true
+// //     });
+
+// //     await newUser.save();
+// //     console.log('User saved successfully with ID:', newUser._id);
+
+// //     res.status(201).json({ 
+// //       message: 'User registered successfully',
+// //       user: {
+// //         _id: newUser._id,
+// //         name: newUser.name,
+// //         email: newUser.email,
+// //         role: newUser.role,
+// //         bloodGroup: newUser.bloodGroup,
+// //         token: generateToken(newUser._id)
+// //       }
+// //     });
+// //   } catch (error) {
+// //     console.error('Registration error:', error);
+// //     res.status(500).json({ message: 'Server error' });
+// //   }
+// // });
+
+// // // Login
+// // app.post('/api/auth/login', async (req, res) => {
+// //   try {
+// //     console.log('Login request received:', req.body);
+    
+// //     const { email, password } = req.body;
+
+// //     // Validate inputs
+// //     if (!email || !password) {
+// //       console.log('Missing email or password in request');
+// //       return res.status(400).json({ message: 'Please enter all fields' });
+// //     }
+
+// //     // Find user
+// //     const user = await User.findOne({ email });
+// //     console.log('User found?', !!user);
+    
+// //     if (!user) {
+// //       return res.status(400).json({ message: 'Invalid credentials' });
+// //     }
+
+// //     // Compare password
+// //     const isMatch = await bcrypt.compare(password, user.password);
+// //     console.log('Password match?', isMatch);
+    
+// //     if (!isMatch) {
+// //       return res.status(400).json({ message: 'Invalid credentials' });
+// //     }
+
+// //     // Generate token
+// //     const token = generateToken(user._id);
+
+// //     res.status(200).json({
+// //       message: 'Login successful',
+// //       token,
+// //       user: {
+// //         id: user._id,
+// //         name: user.name,
+// //         email: user.email,
+// //         phone: user.phone,
+// //         location: user.location,
+// //         role: user.role,
+// //         bloodGroup: user.bloodGroup,
+// //       },
+// //     });
+// //   } catch (error) {
+// //     console.error('Login error:', error);
+// //     res.status(500).json({ message: 'Server error' });
+// //   }
+// // });
+
+// // // Get user profile
+// // app.get('/api/auth/profile', protect, async (req, res) => {
+// //   try {
+// //     console.log('Get profile request for user:', req.user._id);
+// //     const user = await User.findById(req.user._id).select('-password');
+    
+// //     if (user) {
+// //       res.json(user);
+// //     } else {
+// //       res.status(404).json({ message: 'User not found' });
+// //     }
+// //   } catch (error) {
+// //     console.error('Get profile error:', error);
+// //     res.status(500).json({ message: error.message });
+// //   }
+// // });
+
+// // // Update user profile
+// // app.put('/api/auth/profile', protect, async (req, res) => {
+// //   try {
+// //     console.log('Update profile request:', req.body);
+// //     const user = await User.findById(req.user._id);
+    
+// //     if (!user) {
+// //       return res.status(404).json({ message: 'User not found' });
+// //     }
+    
+// //     user.name = req.body.name || user.name;
+// //     user.location = req.body.location || user.location;
+// //     user.phone = req.body.phone || user.phone;
+    
+// //     // Only donors can update this
+// //     if (user.role === 'donor') {
+// //       user.availability = req.body.availability || user.availability;
+// //     }
+    
+// //     // Only update bloodGroup if provided
+// //     if (req.body.bloodGroup) {
+// //       user.bloodGroup = req.body.bloodGroup;
+// //     }
+    
+// //     // Only update coordinates if provided
+// //     if (req.body.coordinates) {
+// //       user.coordinates = req.body.coordinates;
+// //     }
+    
+// //     // Update emergencyAlerts preference if provided
+// //     if (req.body.emergencyAlerts !== undefined) {
+// //       user.emergencyAlerts = req.body.emergencyAlerts;
+// //     }
+    
+// //     // Update password if provided
+// //     if (req.body.password) {
+// //       user.password = await bcrypt.hash(req.body.password, 10);
+// //     }
+    
+// //     const updatedUser = await user.save();
+// //     console.log('User updated successfully');
+    
+// //     res.json({
+// //       _id: updatedUser._id,
+// //       name: updatedUser.name,
+// //       email: updatedUser.email,
+// //       role: updatedUser.role,
+// //       bloodGroup: updatedUser.bloodGroup,
+// //       location: updatedUser.location,
+// //       phone: updatedUser.phone,
+// //       availability: updatedUser.availability,
+// //       coordinates: updatedUser.coordinates,
+// //       emergencyAlerts: updatedUser.emergencyAlerts
+// //     });
+// //   } catch (error) {
+// //     console.error('Update profile error:', error);
+// //     res.status(500).json({ message: error.message });
+// //   }
+// // });
+
+// // // ====================
+// // // DONOR ROUTES
+// // // ====================
+
+// // // Search for donors
+// // app.get('/api/donors/search', async (req, res) => {
+// //   try {
+// //     console.log('Search donors request:', req.query);
+// //     const { bloodGroup, location, availability } = req.query;
+    
+// //     // Base query: only return donors
+// //     const query = { role: 'donor' };
+    
+// //     // Add filters if provided
+// //     if (bloodGroup) {
+// //       query.bloodGroup = bloodGroup;
+// //     }
+    
+// //     if (location) {
+// //       // Simple text-based location search
+// //       query.location = { $regex: location, $options: 'i' };
+// //     }
+    
+// //     if (availability) {
+// //       query.availability = availability;
+// //     }
+    
+// //     const donors = await User.find(query)
+// //       .select('name bloodGroup location availability lastDonation phone')
+// //       .sort({ lastDonation: 1 }); // Sort by donation date (oldest first)
+    
+// //     console.log(`Found ${donors.length} matching donors`);
+// //     res.json(donors);
+// //   } catch (error) {
+// //     console.error('Search donors error:', error);
+// //     res.status(500).json({ message: error.message });
+// //   }
+// // });
+
+// // // ====================
+// // // BLOOD DONATION ROUTES
+// // // ====================
+
+// // // Donation Model Schema
+// // const donationSchema = new mongoose.Schema({
+// //   donor: {
+// //     type: mongoose.Schema.Types.ObjectId,
+// //     ref: 'User',
+// //     required: true
+// //   },
+// //   name: {
+// //     type: String,
+// //     required: true
+// //   },
+// //   age: {
+// //     type: Number,
+// //     required: true
+// //   },
+// //   bloodType: {
+// //     type: String,
+// //     required: true
+// //   },
+// //   date: {
+// //     type: Date,
+// //     required: true
+// //   },
+// //   phone: {
+// //     type: String,
+// //     required: true
+// //   },
+// //   status: {
+// //     type: String,
+// //     enum: ['Scheduled', 'Completed', 'Cancelled'],
+// //     default: 'Scheduled'
+// //   },
+// //   notes: {
+// //     type: String
+// //   },
+// //   createdAt: {
+// //     type: Date,
+// //     default: Date.now
+// //   }
+// // });
+
+// // const Donation = mongoose.model('Donation', donationSchema);
+
+// // // Schedule a donation
+// // app.post('/api/blood/donate', protect, async (req, res) => {
+// //   try {
+// //     console.log('Donation request received:', req.body);
+// //     const { name, age, bloodType, date, phone, notes } = req.body;
+    
+// //     // Validate age
+// //     if (parseInt(age) < 18 || parseInt(age) > 65) {
+// //       return res.status(400).json({ message: 'Age must be between 18 and 65 to donate blood.' });
+// //     }
+
+// //     // Create donation record
+// //     const newDonation = new Donation({
+// //       donor: req.user._id,
+// //       name,
+// //       age: parseInt(age),
+// //       bloodType,
+// //       date: new Date(date),
+// //       phone,
+// //       notes: notes || "",
+// //       status: 'Scheduled'
+// //     });
+
+// //     const savedDonation = await newDonation.save();
+// //     console.log('Donation scheduled successfully');
+
+// //     // Update user's last donation date and availability
+// //     await User.findByIdAndUpdate(req.user._id, {
+// //       lastDonation: date,
+// //       availability: 'Available in 3 months'
+// //     });
+
+// //     res.status(201).json(savedDonation);
+// //   } catch (error) {
+// //     console.error('Donation error:', error);
+// //     res.status(500).json({ message: 'Server error' });
+// //   }
+// // });
+
+// // // Get user's donations
+// // app.get('/api/blood/my-donations', protect, async (req, res) => {
+// //   try {
+// //     console.log('Get donations request for user:', req.user._id);
+// //     const donations = await Donation.find({ donor: req.user._id })
+// //       .sort({ date: -1 });
+    
+// //     console.log(`Found ${donations.length} donations`);
+// //     res.json(donations);
+// //   } catch (error) {
+// //     console.error('Get donations error:', error);
+// //     res.status(500).json({ message: 'Server error' });
+// //   }
+// // });
+
+// // // ====================
+// // // BLOOD REQUEST ROUTES
+// // // ====================
+
+// // // Blood Request Model Schema
+// // const bloodRequestSchema = new mongoose.Schema({
+// //   requester: {
+// //     type: mongoose.Schema.Types.ObjectId,
+// //     ref: 'User'
+// //   },
+// //   name: {
+// //     type: String,
+// //     required: true
+// //   },
+// //   bloodGroup: {
+// //     type: String,
+// //     required: true
+// //   },
+// //   quantity: {
+// //     type: Number,
+// //     required: true
+// //   },
+// //   contact: {
+// //     type: String,
+// //     required: true
+// //   },
+// //   hospital: {
+// //     type: String,
+// //     required: true
+// //   },
+// //   location: {
+// //     type: String,
+// //     required: true
+// //   },
+// //   reason: {
+// //     type: String,
+// //     required: true
+// //   },
+// //   isUrgent: {
+// //     type: Boolean,
+// //     default: false
+// //   },
+// //   status: {
+// //     type: String,
+// //     enum: ['Pending', 'Fulfilled', 'Cancelled'],
+// //     default: 'Pending'
+// //   },
+// //   createdAt: {
+// //     type: Date,
+// //     default: Date.now
+// //   }
+// // });
+
+// // const BloodRequest = mongoose.model('BloodRequest', bloodRequestSchema);
+
+// // // Create a blood request
+// // app.post('/api/blood/request', async (req, res) => {
+// //   try {
+// //     console.log('Blood request received:', req.body);
+// //     const {
+// //       name,
+// //       bloodGroup,
+// //       quantity,
+// //       contact,
+// //       hospital,
+// //       location,
+// //       reason,
+// //       isUrgent
+// //     } = req.body;
+
+// //     // Validate required fields
+// //     if (!name || !bloodGroup || !quantity || !contact || !hospital || !location || !reason) {
+// //       return res.status(400).json({ message: 'Please fill all required fields' });
+// //     }
+
+// //     // Create a new request
+// //     const newRequest = new BloodRequest({
+// //       requester: req.user ? req.user._id : null,
+// //       name,
+// //       bloodGroup,
+// //       quantity: parseInt(quantity),
+// //       contact,
+// //       hospital,
+// //       location,
+// //       reason,
+// //       isUrgent: isUrgent || false
+// //     });
+    
+// //     const savedRequest = await newRequest.save();
+// //     console.log('Blood request created successfully');
+
+// //     // If this is an urgent request, we would send alerts to matching donors
+// //     // (in a real app with proper notification system)
+// //     if (isUrgent) {
+// //       console.log(`Urgent blood request for ${bloodGroup} at ${hospital}`);
+      
+// //       // Find matching donors (simplified)
+// //       const matchingDonors = await User.find({
+// //         role: 'donor',
+// //         bloodGroup: bloodGroup,
+// //         emergencyAlerts: true
+// //       });
+      
+// //       console.log(`Found ${matchingDonors.length} matching donors for urgent request`);
+      
+// //       // In a real app, we would send notifications to these donors
+// //     }
+
+// //     res.status(201).json(savedRequest);
+// //   } catch (error) {
+// //     console.error('Blood request error:', error);
+// //     res.status(500).json({ message: 'Server error' });
+// //   }
+// // });
+
+// // // Get all blood requests
+// // app.get('/api/blood/requests', async (req, res) => {
+// //   try {
+// //     console.log('Get all blood requests');
+// //     const bloodRequests = await BloodRequest.find({})
+// //       .sort({ createdAt: -1 });
+    
+// //     console.log(`Found ${bloodRequests.length} blood requests`);
+// //     res.json(bloodRequests);
+// //   } catch (error) {
+// //     console.error('Get blood requests error:', error);
+// //     res.status(500).json({ message: 'Server error' });
+// //   }
+// // });
+
+// // // Get user's blood requests
+// // app.get('/api/blood/my-requests', protect, async (req, res) => {
+// //   try {
+// //     console.log('Get my blood requests for user:', req.user._id);
+// //     const requests = await BloodRequest.find({ requester: req.user._id })
+// //       .sort({ createdAt: -1 });
+    
+// //     console.log(`Found ${requests.length} requests`);
+// //     res.json(requests);
+// //   } catch (error) {
+// //     console.error('Get my requests error:', error);
+// //     res.status(500).json({ message: 'Server error' });
+// //   }
+// // });
+
+// // // ====================
+// // // CHATBOT ROUTES
+// // // ====================
+
+// // // Chatbot Conversation Schema
+// // const chatbotConversationSchema = new mongoose.Schema({
+// //   user: {
+// //     type: mongoose.Schema.Types.ObjectId,
+// //     ref: 'User'
+// //   },
+// //   sessionId: {
+// //     type: String,
+// //     required: true
+// //   },
+// //   messages: [
+// //     {
+// //       sender: {
+// //         type: String,
+// //         enum: ['user', 'bot'],
+// //         required: true
+// //       },
+// //       content: {
+// //         type: String,
+// //         required: true
+// //       },
+// //       timestamp: {
+// //         type: Date,
+// //         default: Date.now
+// //       }
+// //     }
+// //   ],
+// //   createdAt: {
+// //     type: Date,
+// //     default: Date.now
+// //   },
+// //   lastActivity: {
+// //     type: Date,
+// //     default: Date.now
+// //   }
+// // });
+
+// // const ChatbotConversation = mongoose.model('ChatbotConversation', chatbotConversationSchema);
+
+// // // Chatbot knowledge base
+// // const knowledgeBase = {
+// //   greeting: [
+// //     "Hello! I'm your Blood Donation Assistant. How can I help you today?",
+// //     "Hi there! I can help you with blood donation questions. What would you like to know?"
+// //   ],
+  
+// //   eligibility: [
+// //     "To donate blood, you generally need to be at least 18 years old, weigh at least 110 pounds, and be in good health. There are some medical conditions and medications that may affect eligibility."
+// //   ],
+  
+// //   process: [
+// //     "The blood donation process is simple: 1) Register and complete a health screening, 2) The actual donation takes about 10-15 minutes, 3) Afterward, you'll rest and enjoy refreshments for 15 minutes before leaving."
+// //   ],
+  
+// //   bloodTypes: [
+// //     "There are 8 different blood types: A+, A-, B+, B-, AB+, AB-, O+, and O-. Type O- is the universal donor, while AB+ is the universal recipient."
+// //   ],
+  
+// //   frequency: [
+// //     "Most people can donate whole blood every 56 days (8 weeks). Platelets can be donated every 7 days up to 24 times per year."
+// //   ],
+  
+// //   preparation: [
+// //     "Before donating: 1) Drink plenty of water, 2) Eat a healthy meal, 3) Avoid fatty foods, 4) Get a good night's sleep, 5) Bring a valid ID."
+// //   ],
+  
+// //   benefits: [
+// //     "Donating blood helps save lives, provides a free health screening, burns calories, reduces the risk of heart disease, and gives a sense of contribution to your community."
+// //   ],
+  
+// //   timeRequired: [
+// //     "The entire process takes about 1 hour, though the actual blood donation only takes about 10-15 minutes."
+// //   ],
+  
+// //   finding: [
+// //     "You can find donors by using our 'Search' feature. You can search by blood type, location, and availability."
+// //   ],
+  
+// //   emergency: [
+// //     "For emergency blood needs, you can create an urgent request through our system, which will alert compatible donors in your area."
+// //   ],
+  
+// //   requestingBlood: [
+// //     "To request blood, go to the 'Request Blood' page, fill out the form with details about the patient and blood requirements, and submit your request."
+// //   ],
+  
+// //   donationAppointment: [
+// //     "To schedule a donation, go to the 'Donate' page and fill out the appointment form. You'll receive a confirmation and reminders."
+// //   ],
+  
+// //   fallback: [
+// //     "I'm sorry, I don't have information on that topic. Would you like to ask about eligibility, the donation process, blood types, or how to request blood?",
+// //     "I don't understand that question. Try asking about blood donation eligibility, the donation process, or how to use our platform."
+// //   ]
+// // };
+
+// // // Intent matching patterns
+// // const patterns = {
+// //   greeting: /\b(hi|hello|hey|greetings|howdy|good (morning|afternoon|evening))\b/i,
+// //   eligibility: /\b(eligib|requirements|who can donate|can i donate|qualif|criteria)\b/i,
+// //   process: /\b(process|how (to|does) donat|procedure|steps|what happens)\b/i,
+// //   bloodTypes: /\b(blood type|types of blood|different blood|compatible|o\-|a\+|b\-)\b/i,
+// //   frequency: /\b(how (often|frequently)|how many times|frequency|wait between)\b/i,
+// //   preparation: /\b(prepare|ready|before donat|preparation|what should i do)\b/i,
+// //   benefits: /\b(benefit|advantage|good|positive|help|impact)\b/i,
+// //   timeRequired: /\b(how long|time|duration|how much time|minutes|hours)\b/i,
+// //   finding: /\b(find|search|locate|available|donors near|where)\b/i,
+// //   emergency: /\b(emergency|urgent|critical|immediate|quickly)\b/i,
+// //   requestingBlood: /\b(request|need blood|get blood|receive|recipient)\b/i,
+// //   donationAppointment: /\b(schedule|appointment|book|when can i|sign up)\b/i
+// // };
+
+// // // Match user input to intent
+// // const matchIntent = (input) => {
+// //   for (const [intent, pattern] of Object.entries(patterns)) {
+// //     if (pattern.test(input)) {
+// //       return intent;
+// //     }
+// //   }
+// //   return 'fallback';
+// // };
+
+// // // Generate bot response
+// // const generateResponse = (intent) => {
+// //   const responses = knowledgeBase[intent] || knowledgeBase.fallback;
+// //   return responses[Math.floor(Math.random() * responses.length)];
+// // };
+
+// // // Chat with the bot
+// // app.post('/api/chatbot/chat', async (req, res) => {
+// //   try {
+// //     console.log('Chatbot message received:', req.body);
+// //     const { message, sessionId } = req.body;
+// //     let conversation;
+    
+// //     // Get or create conversation
+// //     if (sessionId) {
+// //       conversation = await ChatbotConversation.findOne({ sessionId });
+// //     }
+    
+// //     if (!conversation) {
+// //       // Create new conversation
+// //       conversation = new ChatbotConversation({
+// //         user: req.user ? req.user._id : null,
+// //         sessionId: sessionId || uuidv4(),
+// //         messages: []
+// //       });
+// //     }
+    
+// //     // Add user message
+// //     conversation.messages.push({
+// //       sender: 'user',
+// //       content: message
+// //     });
+    
+// //     // Generate bot response
+// //     const intent = matchIntent(message);
+// //     console.log('Detected intent:', intent);
+// //     const botResponse = generateResponse(intent);
+    
+// //     // Add bot response
+// //     conversation.messages.push({
+// //       sender: 'bot',
+// //       content: botResponse
+// //     });
+    
+// //     // Update last activity
+// //     conversation.lastActivity = Date.now();
+    
+// //     // Save conversation
+// //     await conversation.save();
+// //     console.log('Chatbot conversation saved');
+    
+// //     res.json({
+// //       sessionId: conversation.sessionId,
+// //       response: botResponse,
+// //       messages: conversation.messages
+// //     });
+// //   } catch (error) {
+// //     console.error('Chatbot error:', error);
+// //     res.status(500).json({ message: error.message });
+// //   }
+// // });
+
+// // // Get conversation history
+// // app.get('/api/chatbot/conversation/:sessionId', async (req, res) => {
+// //   try {
+// //     console.log('Get conversation history for session:', req.params.sessionId);
+// //     const { sessionId } = req.params;
+    
+// //     const conversation = await ChatbotConversation.findOne({ sessionId });
+    
+// //     if (!conversation) {
+// //       return res.status(404).json({ message: 'Conversation not found' });
+// //     }
+    
+// //     res.json({
+// //       sessionId: conversation.sessionId,
+// //       messages: conversation.messages
+// //     });
+// //   } catch (error) {
+// //     console.error('Get conversation error:', error);
+// //     res.status(500).json({ message: error.message });
+// //   }
+// // });
 
 // // // Serve static assets in production
 // // if (process.env.NODE_ENV === 'production') {
@@ -87,15 +1478,14 @@
 
 
 
-// //server.js
+
+// //new
 // const express = require('express');
 // const cors = require('cors');
 // const dotenv = require('dotenv');
 // const mongoose = require('mongoose');
 // const bcrypt = require('bcryptjs');
 // const jwt = require('jsonwebtoken');
-// const { v4: uuidv4 } = require('uuid');
-// const User = require('./models/User');
 // const path = require('path');
 
 // // Load environment variables
@@ -105,17 +1495,81 @@
 // const app = express();
 
 // // Middleware
-// //  app.use(cors());
-// app.use(cors({
-//   origin: 'http://localhost:3000', // Your frontend URL
-//   credentials: true // Allow credentials
-// }));
+// app.use(cors());
 // app.use(express.json());
 
-// // MongoDB Connection
+// // MongoDB Connection with better error logging
 // mongoose.connect(process.env.MONGO_URI)
-//   .then(() => console.log('MongoDB connected'))
-//   .catch((err) => console.error('MongoDB connection error:', err));
+//   .then(() => {
+//     console.log('MongoDB connected successfully');
+//     console.log('Connected to database:', mongoose.connection.db.databaseName);
+//   })
+//   .catch((err) => {
+//     console.error('MongoDB connection error:', err);
+//     console.error('Using MONGO_URI:', process.env.MONGO_URI ? 'URI is set' : 'URI is not set');
+//     if (err.name === 'MongoNetworkError') {
+//       console.error('Could not connect to MongoDB. Check your internet connection and MongoDB URI.');
+//     }
+//   });
+
+// // User Model Schema - Fixed to remove username unique constraint
+// const userSchema = new mongoose.Schema({
+//   name: { 
+//     type: String, 
+//     required: true 
+//   },
+//   email: { 
+//     type: String, 
+//     required: true, 
+//     unique: true 
+//   },
+//   phone: { 
+//     type: String, 
+//     required: true 
+//   },
+//   location: { 
+//     type: String, 
+//     required: true 
+//   },
+//   password: { 
+//     type: String, 
+//     required: true 
+//   },
+//   bloodGroup: { 
+//     type: String, 
+//     required: true 
+//   },
+//   role: { 
+//     type: String, 
+//     enum: ['donor', 'receiver'], 
+//     required: true 
+//   },
+//   lastDonation: {
+//     type: Date,
+//     default: null
+//   },
+//   availability: {
+//     type: String,
+//     default: 'Available'
+//   },
+//   coordinates: {
+//     type: {
+//       lat: Number,
+//       lng: Number
+//     },
+//     default: null
+//   },
+//   emergencyAlerts: {
+//     type: Boolean,
+//     default: true
+//   },
+//   createdAt: {
+//     type: Date,
+//     default: Date.now
+//   }
+// });
+
+// const User = mongoose.model('User', userSchema);
 
 // // Middleware to protect routes
 // const protect = async (req, res, next) => {
@@ -125,21 +1579,26 @@
 //     try {
 //       // Get token from header
 //       token = req.headers.authorization.split(' ')[1];
+//       console.log('Token received:', token);
 
 //       // Verify token
 //       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//       console.log('Token verified, user ID:', decoded.id);
 
 //       // Get user from the token
 //       req.user = await User.findById(decoded.id).select('-password');
+//       if (!req.user) {
+//         console.log('User not found with ID:', decoded.id);
+//         return res.status(404).json({ message: 'User not found' });
+//       }
 
 //       next();
 //     } catch (error) {
 //       console.error('Auth middleware error:', error);
 //       res.status(401).json({ message: 'Not authorized, token failed' });
 //     }
-//   }
-
-//   if (!token) {
+//   } else {
+//     console.log('No authorization header found');
 //     res.status(401).json({ message: 'Not authorized, no token' });
 //   }
 // };
@@ -153,19 +1612,36 @@
 // // AUTH ROUTES
 // // ====================
 
-// // Registration
+// // Registration - Fixed to handle errors better
 // app.post('/api/auth/register', async (req, res) => {
 //   try {
+//     console.log('Registration request received:', req.body);
+    
 //     const { name, email, phone, location, password, bloodGroup, role } = req.body;
 
 //     if (!name || !email || !phone || !location || !password || !bloodGroup || !role) {
+//       console.log('Missing fields:', { 
+//         name: !name, 
+//         email: !email, 
+//         phone: !phone, 
+//         location: !location, 
+//         password: !password, 
+//         bloodGroup: !bloodGroup, 
+//         role: !role 
+//       });
 //       return res.status(400).json({ message: 'Please enter all fields' });
 //     }
 
 //     const existingUser = await User.findOne({ email });
-//     if (existingUser) return res.status(400).json({ message: 'User already exists' });
+//     console.log('User already exists?', !!existingUser);
+    
+//     if (existingUser) {
+//       return res.status(400).json({ message: 'User already exists' });
+//     }
 
+//     // Create new user
 //     const hashedPassword = await bcrypt.hash(password, 10);
+//     console.log('Password hashed successfully');
 
 //     const newUser = new User({
 //       name,
@@ -175,13 +1651,13 @@
 //       password: hashedPassword,
 //       bloodGroup,
 //       role,
-//       coordinates: req.body.coordinates || null,
 //       availability: 'Available',
 //       lastDonation: null,
 //       emergencyAlerts: true
 //     });
 
 //     await newUser.save();
+//     console.log('User saved successfully with ID:', newUser._id);
 
 //     res.status(201).json({ 
 //       message: 'User registered successfully',
@@ -191,42 +1667,67 @@
 //         email: newUser.email,
 //         role: newUser.role,
 //         bloodGroup: newUser.bloodGroup,
-//         location: newUser.location,
-//         phone: newUser.phone,
 //         token: generateToken(newUser._id)
 //       }
 //     });
 //   } catch (error) {
 //     console.error('Registration error:', error);
-//     res.status(500).json({ message: 'Server error' });
+    
+//     // Check for duplicate key errors
+//     if (error.code === 11000) {
+//       return res.status(400).json({ 
+//         message: 'Registration failed: Duplicate value found',
+//         details: Object.keys(error.keyValue)[0] + ' already exists'
+//       });
+//     }
+    
+//     res.status(500).json({ message: 'Server error', details: error.message });
 //   }
 // });
 
 // // Login
 // app.post('/api/auth/login', async (req, res) => {
 //   try {
+//     console.log('Login request received:', req.body);
+    
 //     const { email, password } = req.body;
 
-//     if (!email || !password)
+//     // Validate inputs
+//     if (!email || !password) {
+//       console.log('Missing email or password in request');
 //       return res.status(400).json({ message: 'Please enter all fields' });
+//     }
 
+//     // Find user
 //     const user = await User.findOne({ email });
-//     if (!user) return res.status(400).json({ message: 'Invalid credentials' });
+//     console.log('User found?', !!user);
+    
+//     if (!user) {
+//       return res.status(400).json({ message: 'Invalid credentials' });
+//     }
 
+//     // Compare password
 //     const isMatch = await bcrypt.compare(password, user.password);
-//     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+//     console.log('Password match?', isMatch);
+    
+//     if (!isMatch) {
+//       return res.status(400).json({ message: 'Invalid credentials' });
+//     }
+
+//     // Generate token
+//     const token = generateToken(user._id);
 
 //     res.status(200).json({
 //       message: 'Login successful',
-//       token: generateToken(user._id),
+//       token,
 //       user: {
 //         id: user._id,
 //         name: user.name,
 //         email: user.email,
 //         phone: user.phone,
 //         location: user.location,
-//         bloodGroup: user.bloodGroup,
 //         role: user.role,
+//         bloodGroup: user.bloodGroup,
 //       },
 //     });
 //   } catch (error) {
@@ -238,6 +1739,7 @@
 // // Get user profile
 // app.get('/api/auth/profile', protect, async (req, res) => {
 //   try {
+//     console.log('Get profile request for user:', req.user._id);
 //     const user = await User.findById(req.user._id).select('-password');
     
 //     if (user) {
@@ -254,6 +1756,7 @@
 // // Update user profile
 // app.put('/api/auth/profile', protect, async (req, res) => {
 //   try {
+//     console.log('Update profile request:', req.body);
 //     const user = await User.findById(req.user._id);
     
 //     if (!user) {
@@ -290,6 +1793,7 @@
 //     }
     
 //     const updatedUser = await user.save();
+//     console.log('User updated successfully');
     
 //     res.json({
 //       _id: updatedUser._id,
@@ -316,6 +1820,7 @@
 // // Search for donors
 // app.get('/api/donors/search', async (req, res) => {
 //   try {
+//     console.log('Search donors request:', req.query);
 //     const { bloodGroup, location, availability } = req.query;
     
 //     // Base query: only return donors
@@ -339,6 +1844,953 @@
 //       .select('name bloodGroup location availability lastDonation phone')
 //       .sort({ lastDonation: 1 }); // Sort by donation date (oldest first)
     
+//     console.log(`Found ${donors.length} matching donors`);
+//     res.json(donors);
+//   } catch (error) {
+//     console.error('Search donors error:', error);
+//     res.status(500).json({ message: error.message });
+//   }
+// });
+
+// // ====================
+// // BLOOD DONATION ROUTES
+// // ====================
+
+// // Donation Model Schema
+// const donationSchema = new mongoose.Schema({
+//   donor: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: 'User',
+//     required: true
+//   },
+//   name: {
+//     type: String,
+//     required: true
+//   },
+//   age: {
+//     type: Number,
+//     required: true
+//   },
+//   bloodType: {
+//     type: String,
+//     required: true
+//   },
+//   date: {
+//     type: Date,
+//     required: true
+//   },
+//   phone: {
+//     type: String,
+//     required: true
+//   },
+//   status: {
+//     type: String,
+//     enum: ['Scheduled', 'Completed', 'Cancelled'],
+//     default: 'Scheduled'
+//   },
+//   notes: {
+//     type: String
+//   },
+//   createdAt: {
+//     type: Date,
+//     default: Date.now
+//   }
+// });
+
+// const Donation = mongoose.model('Donation', donationSchema);
+
+// // Schedule a donation
+// app.post('/api/blood/donate', protect, async (req, res) => {
+//   try {
+//     console.log('Donation request received:', req.body);
+//     const { name, age, bloodType, date, phone, notes } = req.body;
+    
+//     // Validate age
+//     if (parseInt(age) < 18 || parseInt(age) > 65) {
+//       return res.status(400).json({ message: 'Age must be between 18 and 65 to donate blood.' });
+//     }
+
+//     // Create donation record
+//     const newDonation = new Donation({
+//       donor: req.user._id,
+//       name,
+//       age: parseInt(age),
+//       bloodType,
+//       date: new Date(date),
+//       phone,
+//       notes: notes || "",
+//       status: 'Scheduled'
+//     });
+
+//     const savedDonation = await newDonation.save();
+//     console.log('Donation scheduled successfully');
+
+//     // Update user's last donation date and availability
+//     await User.findByIdAndUpdate(req.user._id, {
+//       lastDonation: date,
+//       availability: 'Available in 3 months'
+//     });
+
+//     res.status(201).json(savedDonation);
+//   } catch (error) {
+//     console.error('Donation error:', error);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// });
+
+// // Get user's donations
+// app.get('/api/blood/my-donations', protect, async (req, res) => {
+//   try {
+//     console.log('Get donations request for user:', req.user._id);
+//     const donations = await Donation.find({ donor: req.user._id })
+//       .sort({ date: -1 });
+    
+//     console.log(`Found ${donations.length} donations`);
+//     res.json(donations);
+//   } catch (error) {
+//     console.error('Get donations error:', error);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// });
+
+// // ====================
+// // BLOOD REQUEST ROUTES
+// // ====================
+
+// // Blood Request Model Schema
+// const bloodRequestSchema = new mongoose.Schema({
+//   requester: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: 'User',
+//     required: true
+//   },
+//   patientname: {
+//     type: String,
+//     required: true
+//   },
+//   bloodGroup: {
+//     type: String,
+//     required: true
+//   },
+//   units: {
+//     type: Number,
+//     required: true,
+//     min: 1
+//   },
+//   contactPhone: {
+//     type: String,
+//     required: true
+//   },
+//   hospital: {
+//     type: String,
+//     required: true
+//   },
+//   location: {
+//     type: String,
+//     required: true
+//   },
+//   reason: {
+//     type: String
+//   },
+//   urgency: {
+//     type: String,
+//     enum: ['Emergency', 'Urgent','Standard'],
+//     default: 'Standard'
+//   },
+//   status: {
+//     type: String,
+//     enum: ['Open', 'Fulfilled', 'Closed'],
+//     default: 'Open'
+//   },
+//   notificationSent: {
+//     type: Boolean,
+//     default: false
+//   },
+//   createdAt: {
+//     type: Date,
+//     default: Date.now
+//   }
+// });
+
+// const BloodRequest = mongoose.model('BloodRequest', bloodRequestSchema);
+
+// // Create a blood request
+// app.post('/api/blood/request', async (req, res) => {
+//   try {
+//     console.log('Blood request received:', req.body);
+//     const {
+//       name,
+//       bloodGroup,
+//       quantity,
+//       contact,
+//       hospital,
+//       location,
+//       reason,
+//       isUrgent
+//     } = req.body;
+
+//     // Create a new request
+//     const newRequest = new BloodRequest({
+//       requester: req.user ? req.user._id : null,
+//       name,
+//       bloodGroup,
+//       quantity: parseInt(quantity),
+//       contact,
+//       hospital,
+//       location,
+//       reason,
+//       isUrgent: isUrgent || false
+//     });
+    
+//     const savedRequest = await newRequest.save();
+//     console.log('Blood request created with ID:', savedRequest._id);
+
+//     res.status(201).json(savedRequest);
+//   } catch (error) {
+//     console.error('Blood request error:', error);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// });
+
+// // Get all blood requests
+// app.get('/api/blood/requests', async (req, res) => {
+//   try {
+//     const requests = await BloodRequest.find()
+//       .sort({ createdAt: -1 }); // Newest first
+    
+//     res.json(requests);
+//   } catch (error) {
+//     console.error('Get blood requests error:', error);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// });
+
+// // ====================
+// // CHATBOT ROUTES
+// // ====================
+
+// // Chatbot Model Schema
+// const chatbotConversationSchema = new mongoose.Schema({
+//   user: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: 'User'
+//   },
+//   sessionId: {
+//     type: String,
+//     required: true
+//   },
+//   messages: [
+//     {
+//       text: String,
+//       sender: {
+//         type: String,
+//         enum: ['user', 'bot']
+//       },
+//       timestamp: {
+//         type: Date,
+//         default: Date.now
+//       }
+//     }
+//   ],
+//   createdAt: {
+//     type: Date,
+//     default: Date.now
+//   },
+//   lastActivity: {
+//     type: Date,
+//     default: Date.now
+//   }
+// });
+
+// const ChatbotConversation = mongoose.model('ChatbotConversation', chatbotConversationSchema);
+
+// // Handle chatbot messages
+// app.post('/api/chatbot/message', async (req, res) => {
+//   try {
+//     const { message, sessionId } = req.body;
+    
+//     if (!message) {
+//       return res.status(400).json({ message: 'Message is required' });
+//     }
+    
+//     // Simple rule-based responses
+//     let reply = '';
+//     const lowerMessage = message.toLowerCase();
+    
+//     if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+//       reply = 'Hello! How can I help you with blood donation today?';
+//     } else if (lowerMessage.includes('donate') || lowerMessage.includes('donation')) {
+//       reply = 'To donate blood, you need to be at least 18 years old, weigh at least 50kg, and be in good health. Would you like to know more?';
+//     } else if (lowerMessage.includes('eligibility') || lowerMessage.includes('eligible')) {
+//       reply = 'Eligibility factors include age (18-65), weight (50kg+), good health, and no recent tattoos or certain medications. Would you like me to check specific eligibility criteria?';
+//     } else if (lowerMessage.includes('blood type') || lowerMessage.includes('blood group')) {
+//       reply = 'There are 8 main blood types: A+, A-, B+, B-, AB+, AB-, O+, and O-. O- is a universal donor, and AB+ is a universal recipient.';
+//     } else if (lowerMessage.includes('time') || lowerMessage.includes('how long')) {
+//       reply = 'The donation process takes about 45-60 minutes, with the actual blood draw only taking about 8-10 minutes.';
+//     } else if (lowerMessage.includes('thank')) {
+//       reply = 'You\'re welcome! Thank you for your interest in blood donation. It saves lives!';
+//     } else {
+//       reply = 'I\'m sorry, I don\'t have information on that topic yet. Would you like to know about blood donation eligibility or the donation process?';
+//     }
+    
+//     // Store conversation if sessionId is provided
+//     if (sessionId) {
+//       let conversation = await ChatbotConversation.findOne({ sessionId });
+      
+//       if (!conversation) {
+//         conversation = new ChatbotConversation({
+//           sessionId,
+//           messages: []
+//         });
+//       }
+      
+//       // Add user message
+//       conversation.messages.push({
+//         text: message,
+//         sender: 'user'
+//       });
+      
+//       // Add bot reply
+//       conversation.messages.push({
+//         text: reply,
+//         sender: 'bot'
+//       });
+      
+//       conversation.lastActivity = new Date();
+//       await conversation.save();
+//     }
+    
+//     res.json({ reply });
+//   } catch (error) {
+//     console.error('Chatbot error:', error);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// });
+
+// // Get conversation history
+// app.get('/api/chatbot/history/:sessionId', async (req, res) => {
+//   try {
+//     const { sessionId } = req.params;
+//     const conversation = await ChatbotConversation.findOne({ sessionId });
+    
+//     if (!conversation) {
+//       return res.status(404).json({ message: 'Conversation not found' });
+//     }
+    
+//     res.json(conversation.messages);
+//   } catch (error) {
+//     console.error('Get chatbot history error:', error);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// });
+
+// // Server info endpoint for testing
+// app.get('/api/server-info', (req, res) => {
+//   res.json({
+//     message: 'Server is running',
+//     timestamp: new Date().toISOString(),
+//     environment: process.env.NODE_ENV || 'development'
+//   });
+// });
+
+// // Start server
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+
+
+
+
+// //new with all features
+// const express = require('express');
+// const cors = require('cors');
+// const dotenv = require('dotenv');
+// const mongoose = require('mongoose');
+// const bcrypt = require('bcryptjs');
+// const jwt = require('jsonwebtoken');
+// const crypto = require('crypto');
+// const nodemailer = require('nodemailer');
+// const path = require('path');
+
+// // Load environment variables
+// dotenv.config();
+
+// // Create Express app
+// const app = express();
+
+// // Middleware
+// app.use(cors());
+// app.use(express.json());
+
+// // Routes
+// const emergencyRoutes = require('./routes/emergencyRoutes');
+// app.use('/api/emergency', emergencyRoutes);
+
+// // MongoDB Connection with better error logging
+// mongoose.connect(process.env.MONGO_URI)
+//   .then(() => {
+//     console.log('MongoDB connected successfully');
+//     console.log('Connected to database:', mongoose.connection.db.databaseName);
+//   })
+//   .catch((err) => {
+//     console.error('MongoDB connection error:', err);
+//     console.error('Using MONGO_URI:', process.env.MONGO_URI ? 'URI is set' : 'URI is not set');
+//     if (err.name === 'MongoNetworkError') {
+//       console.error('Could not connect to MongoDB. Check your internet connection and MongoDB URI.');
+//     }
+//   });
+
+// // User Model Schema - Updated with reset password fields
+// const userSchema = new mongoose.Schema({
+//   name: { 
+//     type: String, 
+//     required: true 
+//   },
+//   email: { 
+//     type: String, 
+//     required: true, 
+//     unique: true 
+//   },
+//   phone: { 
+//     type: String, 
+//     required: true 
+//   },
+//   location: { 
+//     type: String, 
+//     required: true 
+//   },
+//   password: { 
+//     type: String, 
+//     required: true 
+//   },
+//   bloodGroup: { 
+//     type: String, 
+//     required: true 
+//   },
+//   role: { 
+//     type: String, 
+//     enum: ['donor', 'receiver'], 
+//     required: true 
+//   },
+//   lastDonation: {
+//     type: Date,
+//     default: null
+//   },
+//   availability: {
+//     type: String,
+//     default: 'Available'
+//   },
+//   coordinates: {
+//     type: {
+//       lat: Number,
+//       lng: Number
+//     },
+//     default: null
+//   },
+//   emergencyAlerts: {
+//     type: Boolean,
+//     default: true
+//   },
+//   createdAt: {
+//     type: Date,
+//     default: Date.now
+//   },
+//   resetPasswordToken: { 
+//     type: String 
+//   },
+//   resetPasswordExpires: { 
+//     type: Date 
+//   }
+// });
+
+// const User = mongoose.model('User', userSchema);
+
+// // Donation Model Schema
+// const donationSchema = new mongoose.Schema({
+//   donor: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: 'User',
+//     required: true
+//   },
+//   name: {
+//     type: String,
+//     required: true
+//   },
+//   age: {
+//     type: Number,
+//     required: true
+//   },
+//   bloodType: {
+//     type: String,
+//     required: true
+//   },
+//   date: {
+//     type: Date,
+//     required: true
+//   },
+//   phone: {
+//     type: String,
+//     required: true
+//   },
+//   status: {
+//     type: String,
+//     enum: ['Scheduled', 'Completed', 'Cancelled'],
+//     default: 'Scheduled'
+//   },
+//   notes: {
+//     type: String
+//   },
+//   createdAt: {
+//     type: Date,
+//     default: Date.now
+//   }
+// });
+
+// const Donation = mongoose.model('Donation', donationSchema);
+
+// // Blood Request Model Schema
+// const bloodRequestSchema = new mongoose.Schema({
+//   requester: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: 'User',
+//     required: true
+//   },
+//   patientName: {
+//     type: String,
+//     required: true
+//   },
+//   bloodGroup: {
+//     type: String,
+//     required: true
+//   },
+//   units: {
+//     type: Number,
+//     required: true,
+//     min: 1
+//   },
+//   hospital: {
+//     type: String,
+//     required: true
+//   },
+//   location: {
+//     type: String,
+//     required: true
+//   },
+//   contactPhone: {
+//     type: String,
+//     required: true
+//   },
+//   urgency: {
+//     type: String,
+//     enum: ['Emergency', 'Urgent', 'Standard'],
+//     default: 'Standard'
+//   },
+//   status: {
+//     type: String,
+//     enum: ['Open', 'Fulfilled', 'Closed'],
+//     default: 'Open'
+//   },
+//   notificationSent: {
+//     type: Boolean,
+//     default: false
+//   },
+//   createdAt: {
+//     type: Date,
+//     default: Date.now
+//   }
+// });
+
+// const BloodRequest = mongoose.model('BloodRequest', bloodRequestSchema);
+
+// // Middleware to protect routes
+// const protect = async (req, res, next) => {
+//   let token;
+
+//   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+//     try {
+//       // Get token from header
+//       token = req.headers.authorization.split(' ')[1];
+//       console.log('Token received:', token);
+
+//       // Verify token
+//       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//       console.log('Token verified, user ID:', decoded.id);
+
+//       // Get user from the token
+//       req.user = await User.findById(decoded.id).select('-password');
+//       if (!req.user) {
+//         console.log('User not found with ID:', decoded.id);
+//         return res.status(404).json({ message: 'User not found' });
+//       }
+
+//       next();
+//     } catch (error) {
+//       console.error('Auth middleware error:', error);
+//       res.status(401).json({ message: 'Not authorized, token failed' });
+//     }
+//   } else {
+//     console.log('No authorization header found');
+//     res.status(401).json({ message: 'Not authorized, no token' });
+//   }
+// };
+
+// // Generate JWT
+// const generateToken = (id) => {
+//   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+// };
+
+// // ====================
+// // AUTH ROUTES
+// // ====================
+
+// // Registration
+// app.post('/api/auth/register', async (req, res) => {
+//   try {
+//     console.log('Registration request received:', req.body);
+    
+//     const { name, email, phone, location, password, bloodGroup, role } = req.body;
+
+//     if (!name || !email || !phone || !location || !password || !bloodGroup || !role) {
+//       console.log('Missing fields:', { 
+//         name: !name, 
+//         email: !email, 
+//         phone: !phone, 
+//         location: !location, 
+//         password: !password, 
+//         bloodGroup: !bloodGroup, 
+//         role: !role 
+//       });
+//       return res.status(400).json({ message: 'Please enter all fields' });
+//     }
+
+//     const existingUser = await User.findOne({ email });
+//     console.log('User already exists?', !!existingUser);
+    
+//     if (existingUser) {
+//       return res.status(400).json({ message: 'User already exists' });
+//     }
+
+//     // Create new user
+//     const hashedPassword = await bcrypt.hash(password, 10);
+//     console.log('Password hashed successfully');
+
+//     const newUser = new User({
+//       name,
+//       email,
+//       phone,
+//       location,
+//       password: hashedPassword,
+//       bloodGroup,
+//       role,
+//       availability: 'Available',
+//       lastDonation: null,
+//       emergencyAlerts: true
+//     });
+
+//     await newUser.save();
+//     console.log('User saved successfully with ID:', newUser._id);
+
+//     res.status(201).json({ 
+//       message: 'User registered successfully',
+//       user: {
+//         _id: newUser._id,
+//         name: newUser.name,
+//         email: newUser.email,
+//         role: newUser.role,
+//         bloodGroup: newUser.bloodGroup,
+//         token: generateToken(newUser._id)
+//       }
+//     });
+//   } catch (error) {
+//     console.error('Registration error:', error);
+    
+//     // Check for duplicate key errors
+//     if (error.code === 11000) {
+//       return res.status(400).json({ 
+//         message: 'Registration failed: Duplicate value found',
+//         details: Object.keys(error.keyValue)[0] + ' already exists'
+//       });
+//     }
+    
+//     res.status(500).json({ message: 'Server error', details: error.message });
+//   }
+// });
+
+// // Login
+// app.post('/api/auth/login', async (req, res) => {
+//   try {
+//     console.log('Login request received:', req.body);
+    
+//     const { email, password } = req.body;
+
+//     // Validate inputs
+//     if (!email || !password) {
+//       console.log('Missing email or password in request');
+//       return res.status(400).json({ message: 'Please enter all fields' });
+//     }
+
+//     // Find user
+//     const user = await User.findOne({ email });
+//     console.log('User found?', !!user);
+    
+//     if (!user) {
+//       return res.status(400).json({ message: 'Invalid credentials' });
+//     }
+
+//     // Compare password
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     console.log('Password match?', isMatch);
+    
+//     if (!isMatch) {
+//       return res.status(400).json({ message: 'Invalid credentials' });
+//     }
+
+//     // Generate token
+//     const token = generateToken(user._id);
+
+//     res.status(200).json({
+//       message: 'Login successful',
+//       token,
+//       user: {
+//         id: user._id,
+//         name: user.name,
+//         email: user.email,
+//         phone: user.phone,
+//         location: user.location,
+//         role: user.role,
+//         bloodGroup: user.bloodGroup,
+//       },
+//     });
+//   } catch (error) {
+//     console.error('Login error:', error);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// });
+
+// // Forgot Password (new)
+// app.post('/api/auth/forgot-password', async (req, res) => {
+//   try {
+//     const { email } = req.body;
+    
+//     if (!email) {
+//       return res.status(400).json({ message: 'Email is required' });
+//     }
+    
+//     // Find user by email
+//     const user = await User.findOne({ email });
+    
+//     if (!user) {
+//       return res.status(404).json({ message: 'User not found' });
+//     }
+    
+//     // Generate reset token
+//     const resetToken = crypto.randomBytes(20).toString('hex');
+//     const resetTokenExpires = Date.now() + 3600000; // 1 hour
+    
+//     // Update user with reset token
+//     user.resetPasswordToken = resetToken;
+//     user.resetPasswordExpires = resetTokenExpires;
+//     await user.save();
+    
+//     // Send email with reset token
+//     const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+    
+//     // Create a test account using Ethereal (for development)
+//     const testAccount = await nodemailer.createTestAccount();
+    
+//     // Create transporter
+//     const transporter = nodemailer.createTransport({
+//       host: 'smtp.ethereal.email',
+//       port: 587,
+//       secure: false,
+//       auth: {
+//         user: testAccount.user,
+//         pass: testAccount.pass
+//       }
+//     });
+    
+//     // Define email
+//     const mailOptions = {
+//       from: '"Blood Donation App" <no-reply@blooddonation.com>',
+//       to: user.email,
+//       subject: 'Password Reset',
+//       text: `You are receiving this because you (or someone else) requested a password reset.
+//       Please click on the following link to reset your password:
+//       ${resetUrl}
+//       If you did not request this, please ignore this email.`,
+//       html: `
+//         <p>You are receiving this because you (or someone else) requested a password reset.</p>
+//         <p>Please click on the following link to reset your password:</p>
+//         <a href="${resetUrl}">${resetUrl}</a>
+//         <p>If you did not request this, please ignore this email.</p>
+//       `
+//     };
+    
+//     // Send email
+//     const info = await transporter.sendMail(mailOptions);
+    
+//     console.log('Password reset email sent:', info.messageId);
+//     console.log('Preview URL:', nodemailer.getTestMessageUrl(info));
+    
+//     res.status(200).json({ 
+//       message: 'Password reset email sent',
+//       previewUrl: nodemailer.getTestMessageUrl(info)  // Remove this in production
+//     });
+//   } catch (error) {
+//     console.error('Password reset request error:', error);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// });
+
+// // Reset password (new)
+// app.post('/api/auth/reset-password/:token', async (req, res) => {
+//   try {
+//     const { token } = req.params;
+//     const { password } = req.body;
+    
+//     if (!password) {
+//       return res.status(400).json({ message: 'Password is required' });
+//     }
+    
+//     if (password.length < 6) {
+//       return res.status(400).json({ message: 'Password must be at least 6 characters' });
+//     }
+    
+//     // Find user by reset token
+//     const user = await User.findOne({
+//       resetPasswordToken: token,
+//       resetPasswordExpires: { $gt: Date.now() }
+//     });
+    
+//     if (!user) {
+//       return res.status(400).json({ message: 'Invalid or expired token' });
+//     }
+    
+//     // Update password
+//     const hashedPassword = await bcrypt.hash(password, 10);
+//     user.password = hashedPassword;
+//     user.resetPasswordToken = undefined;
+//     user.resetPasswordExpires = undefined;
+    
+//     await user.save();
+    
+//     res.status(200).json({ message: 'Password reset successful' });
+//   } catch (error) {
+//     console.error('Password reset error:', error);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// });
+
+// // Get user profile
+// app.get('/api/auth/profile', protect, async (req, res) => {
+//   try {
+//     console.log('Get profile request for user:', req.user._id);
+//     const user = await User.findById(req.user._id).select('-password');
+    
+//     if (user) {
+//       res.json(user);
+//     } else {
+//       res.status(404).json({ message: 'User not found' });
+//     }
+//   } catch (error) {
+//     console.error('Get profile error:', error);
+//     res.status(500).json({ message: error.message });
+//   }
+// });
+
+// // Update user profile
+// app.put('/api/auth/profile', protect, async (req, res) => {
+//   try {
+//     console.log('Update profile request:', req.body);
+//     const user = await User.findById(req.user._id);
+    
+//     if (!user) {
+//       return res.status(404).json({ message: 'User not found' });
+//     }
+    
+//     user.name = req.body.name || user.name;
+//     user.location = req.body.location || user.location;
+//     user.phone = req.body.phone || user.phone;
+    
+//     // Only donors can update this
+//     if (user.role === 'donor') {
+//       user.availability = req.body.availability || user.availability;
+//     }
+    
+//     // Only update bloodGroup if provided
+//     if (req.body.bloodGroup) {
+//       user.bloodGroup = req.body.bloodGroup;
+//     }
+    
+//     // Only update coordinates if provided
+//     if (req.body.coordinates) {
+//       user.coordinates = req.body.coordinates;
+//     }
+    
+//     // Update emergencyAlerts preference if provided
+//     if (req.body.emergencyAlerts !== undefined) {
+//       user.emergencyAlerts = req.body.emergencyAlerts;
+//     }
+    
+//     // Update password if provided
+//     if (req.body.password) {
+//       user.password = await bcrypt.hash(req.body.password, 10);
+//     }
+    
+//     const updatedUser = await user.save();
+//     console.log('User updated successfully');
+    
+//     res.json({
+//       _id: updatedUser._id,
+//       name: updatedUser.name,
+//       email: updatedUser.email,
+//       role: updatedUser.role,
+//       bloodGroup: updatedUser.bloodGroup,
+//       location: updatedUser.location,
+//       phone: updatedUser.phone,
+//       availability: updatedUser.availability,
+//       coordinates: updatedUser.coordinates,
+//       emergencyAlerts: updatedUser.emergencyAlerts
+//     });
+//   } catch (error) {
+//     console.error('Update profile error:', error);
+//     res.status(500).json({ message: error.message });
+//   }
+// });
+
+// // ====================
+// // DONOR ROUTES
+// // ====================
+
+// // Search for donors
+// app.get('/api/donors/search', async (req, res) => {
+//   try {
+//     console.log('Search donors request:', req.query);
+//     const { bloodGroup, location, availability } = req.query;
+    
+//     // Base query: only return donors
+//     const query = { role: 'donor' };
+    
+//     // Add filters if provided
+//     if (bloodGroup) {
+//       query.bloodGroup = bloodGroup;
+//     }
+    
+//     if (location) {
+//       // Simple text-based location search
+//       query.location = { $regex: location, $options: 'i' };
+//     }
+    
+//     if (availability) {
+//       query.availability = availability;
+//     }
+    
+//     const donors = await User.find(query)
+//       .select('name bloodGroup location availability lastDonation phone')
+//       .sort({ lastDonation: 1 }); // Sort by donation date (oldest first)
+    
+//     console.log(`Found ${donors.length} matching donors`);
 //     res.json(donors);
 //   } catch (error) {
 //     console.error('Search donors error:', error);
@@ -353,28 +2805,53 @@
 // // Schedule a donation
 // app.post('/api/blood/donate', protect, async (req, res) => {
 //   try {
-//     const { name, age, bloodType, date, phone } = req.body;
+//     console.log('Donation request received:', req.body);
+//     const { name, age, bloodType, date, phone, notes } = req.body;
     
 //     // Validate age
 //     if (parseInt(age) < 18 || parseInt(age) > 65) {
 //       return res.status(400).json({ message: 'Age must be between 18 and 65 to donate blood.' });
 //     }
 
-//     // In a real app with MongoDB, you would create a Donation model
-//     // For now, just return success with the donation data
-//     res.status(201).json({
-//       id: Date.now().toString(),
+//     // Create donation record
+//     const newDonation = new Donation({
 //       donor: req.user._id,
 //       name,
-//       age,
+//       age: parseInt(age),
 //       bloodType,
-//       date,
+//       date: new Date(date),
 //       phone,
-//       status: 'Scheduled',
-//       createdAt: new Date().toISOString()
+//       notes: notes || "",
+//       status: 'Scheduled'
 //     });
+
+//     const savedDonation = await newDonation.save();
+//     console.log('Donation scheduled successfully');
+
+//     // Update user's last donation date and availability
+//     await User.findByIdAndUpdate(req.user._id, {
+//       lastDonation: date,
+//       availability: 'Available in 3 months'
+//     });
+
+//     res.status(201).json(savedDonation);
 //   } catch (error) {
 //     console.error('Donation error:', error);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// });
+
+// // Get user's donations
+// app.get('/api/blood/my-donations', protect, async (req, res) => {
+//   try {
+//     console.log('Get donations request for user:', req.user._id);
+//     const donations = await Donation.find({ donor: req.user._id })
+//       .sort({ date: -1 });
+    
+//     console.log(`Found ${donations.length} donations`);
+//     res.json(donations);
+//   } catch (error) {
+//     console.error('Get donations error:', error);
 //     res.status(500).json({ message: 'Server error' });
 //   }
 // });
@@ -383,257 +2860,161 @@
 // // BLOOD REQUEST ROUTES
 // // ====================
 
-// // All blood requests (temporary in-memory storage)
-// const bloodRequests = [];
-
-// // Create a blood request
-// app.post('/api/blood/request', async (req, res) => {
+// // Create emergency blood request and notify donors (new)
+// app.post('/api/blood/emergency-request', protect, async (req, res) => {
 //   try {
-//     const {
-//       name,
-//       bloodGroup,
-//       quantity,
-//       contact,
-//       hospital,
-//       location,
-//       reason,
-//       isUrgent
-//     } = req.body;
-
-//     // Create a new request object
-//     const newRequest = {
-//       id: Date.now().toString(),
-//       name,
-//       bloodGroup,
-//       quantity,
-//       contact,
-//       hospital,
-//       location,
-//       reason,
-//       isUrgent,
-//       date: new Date().toISOString(),
-//       status: 'Pending'
-//     };
+//     console.log('Emergency request received:', req.body);
+//     const { patientName, bloodGroup, units, hospital, location, contactPhone, urgency } = req.body;
     
-//     // Store in our temporary array
-//     bloodRequests.push(newRequest);
-
-//     // If this is an urgent request, we would send alerts to matching donors
-//     // (this would be implemented in a real app with proper models and notifications)
-//     if (isUrgent) {
-//       console.log(`Urgent blood request for ${bloodGroup} at ${hospital}`);
-//       // Find matching donors and alert them
+//     // Create blood request
+//     const newRequest = new BloodRequest({
+//       requester: req.user._id,
+//       patientName,
+//       bloodGroup,
+//       units: parseInt(units),
+//       hospital,
+//       location,
+//       contactPhone,
+//       urgency: urgency || 'Emergency',
+//       status: 'Open',
+//       notificationSent: false
+//     });
+    
+//     await newRequest.save();
+//     console.log('Emergency request created with ID:', newRequest._id);
+    
+//     // Find compatible donors to notify
+//     const compatibleBloodGroups = getCompatibleDonors(bloodGroup);
+//     console.log('Compatible blood groups:', compatibleBloodGroups);
+    
+//     const donors = await User.find({
+//       role: 'donor',
+//       bloodGroup: { $in: compatibleBloodGroups },
+//       emergencyAlerts: true,
+//       // Filter by location is optional for emergency
+//     }).select('_id name email phone');
+    
+//     console.log(`Found ${donors.length} compatible donors to notify`);
+    
+//     // In a real app, you'd send SMS/push notifications here
+//     // For this MVP, we'll simulate the notification by updating the notificationSent flag
+    
+//     if (donors.length > 0) {
+//       // Update request to mark notifications as sent
+//       newRequest.notificationSent = true;
+//       await newRequest.save();
+      
+//       // For future: Send actual email/SMS notifications to donors
+//       // For now, we'll just log it
+//       console.log('Notification would be sent to:', donors.map(d => d.email).join(', '));
+      
+//       // Send email notification to donors (if we had email integration)
+//       /*
+//       for (const donor of donors) {
+//         // Send email notification
+//         const emailText = `EMERGENCY BLOOD REQUEST: ${patientName} needs ${units} units of ${bloodGroup} blood at ${hospital}, ${location}. Please contact ${contactPhone} if you can help.`;
+        
+//         // This would send actual emails in a production app
+//       }
+//       */
 //     }
-
-//     res.status(200).json(newRequest);
+    
+//     res.status(201).json({
+//       message: 'Emergency request created successfully',
+//       requestId: newRequest._id,
+//       notifiedDonors: donors.length
+//     });
 //   } catch (error) {
-//     console.error('Blood request error:', error);
+//     console.error('Emergency request error:', error);
 //     res.status(500).json({ message: 'Server error' });
 //   }
 // });
 
+// // Helper function to get compatible blood groups
+// function getCompatibleDonors(bloodGroup) {
+//   const compatibility = {
+//     'A+': ['A+', 'A-', 'O+', 'O-'],
+//     'A-': ['A-', 'O-'],
+//     'B+': ['B+', 'B-', 'O+', 'O-'],
+//     'B-': ['B-', 'O-'],
+//     'AB+': ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'], // Can receive from all
+//     'AB-': ['A-', 'B-', 'AB-', 'O-'],
+//     'O+': ['O+', 'O-'],
+//     'O-': ['O-'] // Universal donor
+//   };
+  
+//   return compatibility[bloodGroup] || [];
+// }
+
 // // Get all blood requests
 // app.get('/api/blood/requests', async (req, res) => {
 //   try {
-//     res.json(bloodRequests);
+//     const requests = await BloodRequest.find()
+//       .sort({ createdAt: -1 })
+//       .populate('requester', 'name');
+    
+//     res.json(requests);
 //   } catch (error) {
 //     console.error('Get blood requests error:', error);
 //     res.status(500).json({ message: 'Server error' });
 //   }
 // });
 
-// // ====================
-// // CHATBOT ROUTES
-// // ====================
-
-// // Chatbot knowledge base
-// const knowledgeBase = {
-//   greeting: [
-//     "Hello! I'm your Blood Donation Assistant. How can I help you today?",
-//     "Hi there! I can help you with blood donation questions. What would you like to know?"
-//   ],
-  
-//   eligibility: [
-//     "To donate blood, you generally need to be at least 18 years old, weigh at least 110 pounds, and be in good health. There are some medical conditions and medications that may affect eligibility."
-//   ],
-  
-//   process: [
-//     "The blood donation process is simple: 1) Register and complete a health screening, 2) The actual donation takes about 10-15 minutes, 3) Afterward, you'll rest and enjoy refreshments for 15 minutes before leaving."
-//   ],
-  
-//   bloodTypes: [
-//     "There are 8 different blood types: A+, A-, B+, B-, AB+, AB-, O+, and O-. Type O- is the universal donor, while AB+ is the universal recipient."
-//   ],
-  
-//   frequency: [
-//     "Most people can donate whole blood every 56 days (8 weeks). Platelets can be donated every 7 days up to 24 times per year."
-//   ],
-  
-//   preparation: [
-//     "Before donating: 1) Drink plenty of water, 2) Eat a healthy meal, 3) Avoid fatty foods, 4) Get a good night's sleep, 5) Bring a valid ID."
-//   ],
-  
-//   benefits: [
-//     "Donating blood helps save lives, provides a free health screening, burns calories, reduces the risk of heart disease, and gives a sense of contribution to your community."
-//   ],
-  
-//   timeRequired: [
-//     "The entire process takes about 1 hour, though the actual blood donation only takes about 10-15 minutes."
-//   ],
-  
-//   finding: [
-//     "You can find donors by using our 'Search' feature. You can search by blood type, location, and availability."
-//   ],
-  
-//   emergency: [
-//     "For emergency blood needs, you can create an urgent request through our system, which will alert compatible donors in your area."
-//   ],
-  
-//   requestingBlood: [
-//     "To request blood, go to the 'Request Blood' page, fill out the form with details about the patient and blood requirements, and submit your request."
-//   ],
-  
-//   donationAppointment: [
-//     "To schedule a donation, go to the 'Donate' page and fill out the appointment form. You'll receive a confirmation and reminders."
-//   ],
-  
-//   fallback: [
-//     "I'm sorry, I don't have information on that topic. Would you like to ask about eligibility, the donation process, blood types, or how to request blood?",
-//     "I don't understand that question. Try asking about blood donation eligibility, the donation process, or how to use our platform."
-//   ]
-// };
-
-// // Intent matching patterns
-// const patterns = {
-//   greeting: /\b(hi|hello|hey|greetings|howdy|good (morning|afternoon|evening))\b/i,
-//   eligibility: /\b(eligib|requirements|who can donate|can i donate|qualif|criteria)\b/i,
-//   process: /\b(process|how (to|does) donat|procedure|steps|what happens)\b/i,
-//   bloodTypes: /\b(blood type|types of blood|different blood|compatible|o\-|a\+|b\-)\b/i,
-//   frequency: /\b(how (often|frequently)|how many times|frequency|wait between)\b/i,
-//   preparation: /\b(prepare|ready|before donat|preparation|what should i do)\b/i,
-//   benefits: /\b(benefit|advantage|good|positive|help|impact)\b/i,
-//   timeRequired: /\b(how long|time|duration|how much time|minutes|hours)\b/i,
-//   finding: /\b(find|search|locate|available|donors near|where)\b/i,
-//   emergency: /\b(emergency|urgent|critical|immediate|quickly)\b/i,
-//   requestingBlood: /\b(request|need blood|get blood|receive|recipient)\b/i,
-//   donationAppointment: /\b(schedule|appointment|book|when can i|sign up)\b/i
-// };
-
-// // Match user input to intent
-// const matchIntent = (input) => {
-//   for (const [intent, pattern] of Object.entries(patterns)) {
-//     if (pattern.test(input)) {
-//       return intent;
-//     }
-//   }
-//   return 'fallback';
-// };
-
-// // Generate bot response
-// const generateResponse = (intent) => {
-//   const responses = knowledgeBase[intent] || knowledgeBase.fallback;
-//   return responses[Math.floor(Math.random() * responses.length)];
-// };
-
-// // Store chatbot conversations (temporary in-memory storage)
-// const chatbotConversations = [];
-
-// // Chat with the bot
-// app.post('/api/chatbot/chat', async (req, res) => {
+// // Get my blood requests
+// app.get('/api/blood/my-requests', protect, async (req, res) => {
 //   try {
-//     const { message, sessionId } = req.body;
-//     let conversation;
+//     const requests = await BloodRequest.find({ requester: req.user._id })
+//       .sort({ createdAt: -1 });
     
-//     // Get or create conversation
-//     if (sessionId) {
-//       conversation = chatbotConversations.find(c => c.sessionId === sessionId);
-//     }
-    
-//     if (!conversation) {
-//       // Create new conversation
-//       conversation = {
-//         sessionId: sessionId || uuidv4(),
-//         userId: req.user ? req.user._id : null,
-//         messages: [],
-//         createdAt: new Date().toISOString(),
-//         lastActivity: new Date().toISOString()
-//       };
-//       chatbotConversations.push(conversation);
-//     }
-    
-//     // Add user message
-//     conversation.messages.push({
-//       sender: 'user',
-//       content: message,
-//       timestamp: new Date().toISOString()
-//     });
-    
-//     // Generate bot response
-//     const intent = matchIntent(message);
-//     const botResponse = generateResponse(intent);
-    
-//     // Add bot response
-//     conversation.messages.push({
-//       sender: 'bot',
-//       content: botResponse,
-//       timestamp: new Date().toISOString()
-//     });
-    
-//     // Update last activity
-//     conversation.lastActivity = new Date().toISOString();
-    
-//     res.json({
-//       sessionId: conversation.sessionId,
-//       response: botResponse,
-//       messages: conversation.messages
-//     });
+//     res.json(requests);
 //   } catch (error) {
-//     console.error('Chatbot error:', error);
-//     res.status(500).json({ message: error.message });
+//     console.error('Get my blood requests error:', error);
+//     res.status(500).json({ message: 'Server error' });
 //   }
 // });
 
-// // Get conversation history
-// app.get('/api/chatbot/conversation/:sessionId', async (req, res) => {
+// // Close a blood request
+// app.put('/api/blood/requests/:id/close', protect, async (req, res) => {
 //   try {
-//     const { sessionId } = req.params;
+//     const request = await BloodRequest.findById(req.params.id);
     
-//     const conversation = chatbotConversations.find(c => c.sessionId === sessionId);
+//     if (!request) {
+//       return res.status(404).json({ message: 'Request not found' });
+//     }
     
-//     if (!conversation) {
-//       return res.status(404).json({ message: 'Conversation not found' });
-//     }   
-//     res.json({
-//       sessionId: conversation.sessionId,
-//       messages: conversation.messages
-//     });
+//     // Only requester can close their own request
+//     if (request.requester.toString() !== req.user._id.toString()) {
+//       return res.status(403).json({ message: 'Not authorized' });
+//     }
+    
+//     request.status = 'Closed';
+//     await request.save();
+    
+//     res.json({ message: 'Request closed successfully' });
 //   } catch (error) {
-//     console.error('Get conversation error:', error);
-//     res.status(500).json({ message: error.message });
+//     console.error('Close request error:', error);
+//     res.status(500).json({ message: 'Server error' });
 //   }
 // });
-// // Serve static assets in production
-// if (process.env.NODE_ENV === 'production') {
-//   app.use(express.static(path.join(__dirname, 'client/build')));
-//   app.get('*', (req, res) =>
-//     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-//   );
-// }
+
+// // Start server
 // const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
 
 
 
-
-
-
+//new
+// server.js - Complete implementation with emergency notifications
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 const path = require('path');
 
 // Load environment variables
@@ -643,16 +3024,10 @@ dotenv.config();
 const app = express();
 
 // Middleware
-// app.use(cors({
-//   origin: '*', // Allow all origins for testing
-//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-//   allowedHeaders: ['Content-Type', 'Authorization']
-// }));
-app.use(cors())
+app.use(cors());
 app.use(express.json());
 
-// MongoDB Connection
-
+// MongoDB Connection with better error logging
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('MongoDB connected successfully');
@@ -666,17 +3041,7 @@ mongoose.connect(process.env.MONGO_URI)
     }
   });
 
-/* mongoose.connect(process.env.MONGO_URI)
-//   .then(() => console.log('MongoDB connected successfully'))
-//   .catch((err) => {
-//     console.error('MongoDB connection error:', err);
-//     if (err.name === 'MongoNetworkError') {
-//       console.error('Could not connect to MongoDB. Check your internet connection and MongoDB URI.');
-//     }
-//   });
-*/
-
-// User Model Schema
+// User Model Schema - Updated with reset password fields
 const userSchema = new mongoose.Schema({
   name: { 
     type: String, 
@@ -730,10 +3095,153 @@ const userSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  resetPasswordToken: { 
+    type: String 
+  },
+  resetPasswordExpires: { 
+    type: Date 
   }
 });
 
 const User = mongoose.model('User', userSchema);
+
+// Donation Model Schema
+const donationSchema = new mongoose.Schema({
+  donor: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  age: {
+    type: Number,
+    required: true
+  },
+  bloodType: {
+    type: String,
+    required: true
+  },
+  date: {
+    type: Date,
+    required: true
+  },
+  phone: {
+    type: String,
+    required: true
+  },
+  status: {
+    type: String,
+    enum: ['Scheduled', 'Completed', 'Cancelled'],
+    default: 'Scheduled'
+  },
+  notes: {
+    type: String
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+const Donation = mongoose.model('Donation', donationSchema);
+
+// Blood Request Model Schema - Updated with emergency request fields
+const bloodRequestSchema = new mongoose.Schema({
+  requester: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  patientName: {
+    type: String,
+    required: true
+  },
+  bloodGroup: {
+    type: String,
+    required: true
+  },
+  units: {
+    type: Number,
+    required: true,
+    min: 1
+  },
+  hospital: {
+    type: String,
+    required: true
+  },
+  location: {
+    type: String,
+    required: true
+  },
+  coordinates: {
+    lat: Number,
+    lng: Number
+  },
+  contactPhone: {
+    type: String,
+    required: true
+  },
+  urgency: {
+    type: String,
+    enum: ['emergency', 'urgent', 'normal'],
+    default: 'normal'
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'fulfilled', 'cancelled'],
+    default: 'pending'
+  },
+  notes: {
+    type: String
+  },
+  expiresAt: {
+    type: Date,
+    default: function() {
+      // Emergency requests expire in 24 hours
+      const now = new Date();
+      if (this.urgency === 'emergency') {
+        return new Date(now.getTime() + 24 * 60 * 60 * 1000);
+      }
+      // Regular requests expire in 7 days
+      return new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+    }
+  },
+  notifiedDonors: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+const BloodRequest = mongoose.model('BloodRequest', bloodRequestSchema);
+
+// Setup nodemailer transporter
+let transporter;
+async function setupMailer() {
+  try {
+    const testAccount = await nodemailer.createTestAccount();
+    transporter = nodemailer.createTransport({
+      host: 'smtp.ethereal.email',
+      port: 587,
+      secure: false,
+      auth: {
+        user: testAccount.user,
+        pass: testAccount.pass
+      }
+    });
+    console.log('Email test account created:', testAccount.user);
+  } catch (error) {
+    console.error('Error setting up email:', error);
+  }
+}
+setupMailer();
 
 // Middleware to protect routes
 const protect = async (req, res, next) => {
@@ -836,7 +3344,16 @@ app.post('/api/auth/register', async (req, res) => {
     });
   } catch (error) {
     console.error('Registration error:', error);
-    res.status(500).json({ message: 'Server error' });
+    
+    // Check for duplicate key errors
+    if (error.code === 11000) {
+      return res.status(400).json({ 
+        message: 'Registration failed: Duplicate value found',
+        details: Object.keys(error.keyValue)[0] + ' already exists'
+      });
+    }
+    
+    res.status(500).json({ message: 'Server error', details: error.message });
   }
 });
 
@@ -891,6 +3408,106 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
+// Forgot Password
+app.post('/api/auth/forgot-password', async (req, res) => {
+  try {
+    const { email } = req.body;
+    
+    if (!email) {
+      return res.status(400).json({ message: 'Email is required' });
+    }
+    
+    // Find user by email
+    const user = await User.findOne({ email });
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    
+    // Generate reset token
+    const resetToken = crypto.randomBytes(20).toString('hex');
+    const resetTokenExpires = Date.now() + 3600000; // 1 hour
+    
+    // Update user with reset token
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = resetTokenExpires;
+    await user.save();
+    
+    // Send email with reset token
+    const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+    
+    // Define email
+    const mailOptions = {
+      from: '"Blood Donation App" <no-reply@blooddonation.com>',
+      to: user.email,
+      subject: 'Password Reset',
+      text: `You are receiving this because you (or someone else) requested a password reset.
+      Please click on the following link to reset your password:
+      ${resetUrl}
+      If you did not request this, please ignore this email.`,
+      html: `
+        <p>You are receiving this because you (or someone else) requested a password reset.</p>
+        <p>Please click on the following link to reset your password:</p>
+        <a href="${resetUrl}">${resetUrl}</a>
+        <p>If you did not request this, please ignore this email.</p>
+      `
+    };
+    
+    // Send email
+    const info = await transporter.sendMail(mailOptions);
+    
+    console.log('Password reset email sent:', info.messageId);
+    console.log('Preview URL:', nodemailer.getTestMessageUrl(info));
+    
+    res.status(200).json({ 
+      message: 'Password reset email sent',
+      previewUrl: nodemailer.getTestMessageUrl(info)  // Remove this in production
+    });
+  } catch (error) {
+    console.error('Password reset request error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Reset password
+app.post('/api/auth/reset-password/:token', async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+    
+    if (!password) {
+      return res.status(400).json({ message: 'Password is required' });
+    }
+    
+    if (password.length < 6) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters' });
+    }
+    
+    // Find user by reset token
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() }
+    });
+    
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid or expired token' });
+    }
+    
+    // Update password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    
+    await user.save();
+    
+    res.status(200).json({ message: 'Password reset successful' });
+  } catch (error) {
+    console.error('Password reset error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 // Get user profile
 app.get('/api/auth/profile', protect, async (req, res) => {
   try {
@@ -904,574 +3521,261 @@ app.get('/api/auth/profile', protect, async (req, res) => {
     }
   } catch (error) {
     console.error('Get profile error:', error);
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
 // Update user profile
 app.put('/api/auth/profile', protect, async (req, res) => {
   try {
-    console.log('Update profile request:', req.body);
+    console.log('Update profile request received:', req.body);
+    
     const user = await User.findById(req.user._id);
     
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
     
-    user.name = req.body.name || user.name;
-    user.location = req.body.location || user.location;
-    user.phone = req.body.phone || user.phone;
-    
-    // Only donors can update this
-    if (user.role === 'donor') {
-      user.availability = req.body.availability || user.availability;
-    }
-    
-    // Only update bloodGroup if provided
-    if (req.body.bloodGroup) {
-      user.bloodGroup = req.body.bloodGroup;
-    }
-    
-    // Only update coordinates if provided
-    if (req.body.coordinates) {
-      user.coordinates = req.body.coordinates;
-    }
-    
-    // Update emergencyAlerts preference if provided
-    if (req.body.emergencyAlerts !== undefined) {
-      user.emergencyAlerts = req.body.emergencyAlerts;
-    }
-    
-    // Update password if provided
-    if (req.body.password) {
-      user.password = await bcrypt.hash(req.body.password, 10);
-    }
+    // Update user fields if they exist in request
+    if (req.body.name) user.name = req.body.name;
+    if (req.body.email) user.email = req.body.email;
+    if (req.body.phone) user.phone = req.body.phone;
+    if (req.body.location) user.location = req.body.location;
+    if (req.body.bloodGroup) user.bloodGroup = req.body.bloodGroup;
+    if (req.body.availability) user.availability = req.body.availability;
+    if (req.body.lastDonation) user.lastDonation = req.body.lastDonation;
+    if (req.body.emergencyAlerts !== undefined) user.emergencyAlerts = req.body.emergencyAlerts;
+    if (req.body.coordinates) user.coordinates = req.body.coordinates;
     
     const updatedUser = await user.save();
-    console.log('User updated successfully');
+    console.log('User profile updated successfully');
     
     res.json({
-      _id: updatedUser._id,
-      name: updatedUser.name,
-      email: updatedUser.email,
-      role: updatedUser.role,
-      bloodGroup: updatedUser.bloodGroup,
-      location: updatedUser.location,
-      phone: updatedUser.phone,
-      availability: updatedUser.availability,
-      coordinates: updatedUser.coordinates,
-      emergencyAlerts: updatedUser.emergencyAlerts
+      message: 'Profile updated successfully',
+      user: {
+        id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        phone: updatedUser.phone,
+        location: updatedUser.location,
+        bloodGroup: updatedUser.bloodGroup,
+        role: updatedUser.role,
+        availability: updatedUser.availability,
+        lastDonation: updatedUser.lastDonation,
+        emergencyAlerts: updatedUser.emergencyAlerts,
+        coordinates: updatedUser.coordinates
+      }
     });
   } catch (error) {
     console.error('Update profile error:', error);
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// ====================
-// DONOR ROUTES
-// ====================
-
-// Search for donors
-app.get('/api/donors/search', async (req, res) => {
-  try {
-    console.log('Search donors request:', req.query);
-    const { bloodGroup, location, availability } = req.query;
-    
-    // Base query: only return donors
-    const query = { role: 'donor' };
-    
-    // Add filters if provided
-    if (bloodGroup) {
-      query.bloodGroup = bloodGroup;
-    }
-    
-    if (location) {
-      // Simple text-based location search
-      query.location = { $regex: location, $options: 'i' };
-    }
-    
-    if (availability) {
-      query.availability = availability;
-    }
-    
-    const donors = await User.find(query)
-      .select('name bloodGroup location availability lastDonation phone')
-      .sort({ lastDonation: 1 }); // Sort by donation date (oldest first)
-    
-    console.log(`Found ${donors.length} matching donors`);
-    res.json(donors);
-  } catch (error) {
-    console.error('Search donors error:', error);
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// ====================
-// BLOOD DONATION ROUTES
-// ====================
-
-// Donation Model Schema
-const donationSchema = new mongoose.Schema({
-  donor: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  name: {
-    type: String,
-    required: true
-  },
-  age: {
-    type: Number,
-    required: true
-  },
-  bloodType: {
-    type: String,
-    required: true
-  },
-  date: {
-    type: Date,
-    required: true
-  },
-  phone: {
-    type: String,
-    required: true
-  },
-  status: {
-    type: String,
-    enum: ['Scheduled', 'Completed', 'Cancelled'],
-    default: 'Scheduled'
-  },
-  notes: {
-    type: String
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
-});
-
-const Donation = mongoose.model('Donation', donationSchema);
-
-// Schedule a donation
-app.post('/api/blood/donate', protect, async (req, res) => {
-  try {
-    console.log('Donation request received:', req.body);
-    const { name, age, bloodType, date, phone, notes } = req.body;
-    
-    // Validate age
-    if (parseInt(age) < 18 || parseInt(age) > 65) {
-      return res.status(400).json({ message: 'Age must be between 18 and 65 to donate blood.' });
-    }
-
-    // Create donation record
-    const newDonation = new Donation({
-      donor: req.user._id,
-      name,
-      age: parseInt(age),
-      bloodType,
-      date: new Date(date),
-      phone,
-      notes: notes || "",
-      status: 'Scheduled'
-    });
-
-    const savedDonation = await newDonation.save();
-    console.log('Donation scheduled successfully');
-
-    // Update user's last donation date and availability
-    await User.findByIdAndUpdate(req.user._id, {
-      lastDonation: date,
-      availability: 'Available in 3 months'
-    });
-
-    res.status(201).json(savedDonation);
-  } catch (error) {
-    console.error('Donation error:', error);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
-
-// Get user's donations
-app.get('/api/blood/my-donations', protect, async (req, res) => {
-  try {
-    console.log('Get donations request for user:', req.user._id);
-    const donations = await Donation.find({ donor: req.user._id })
-      .sort({ date: -1 });
-    
-    console.log(`Found ${donations.length} donations`);
-    res.json(donations);
-  } catch (error) {
-    console.error('Get donations error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
 
 // ====================
-// BLOOD REQUEST ROUTES
+// EMERGENCY ROUTES
 // ====================
 
-// Blood Request Model Schema
-const bloodRequestSchema = new mongoose.Schema({
-  requester: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  },
-  name: {
-    type: String,
-    required: true
-  },
-  bloodGroup: {
-    type: String,
-    required: true
-  },
-  quantity: {
-    type: Number,
-    required: true
-  },
-  contact: {
-    type: String,
-    required: true
-  },
-  hospital: {
-    type: String,
-    required: true
-  },
-  location: {
-    type: String,
-    required: true
-  },
-  reason: {
-    type: String,
-    required: true
-  },
-  isUrgent: {
-    type: Boolean,
-    default: false
-  },
-  status: {
-    type: String,
-    enum: ['Pending', 'Fulfilled', 'Cancelled'],
-    default: 'Pending'
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+// Blood compatibility mapping for emergency notifications
+const bloodCompatibility = {
+  'A+': ['A+', 'A-', 'O+', 'O-'],
+  'A-': ['A-', 'O-'],
+  'B+': ['B+', 'B-', 'O+', 'O-'],
+  'B-': ['B-', 'O-'],
+  'AB+': ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+  'AB-': ['A-', 'B-', 'AB-', 'O-'],
+  'O+': ['O+', 'O-'],
+  'O-': ['O-']
+};
+
+// Simple test route for emergency API
+app.get('/api/emergency/test', (req, res) => {
+  res.json({ message: 'Emergency API is working!' });
 });
 
-const BloodRequest = mongoose.model('BloodRequest', bloodRequestSchema);
-
-// Create a blood request
-app.post('/api/blood/request', async (req, res) => {
+// Create emergency blood request
+app.post('/api/emergency/create', protect, async (req, res) => {
   try {
-    console.log('Blood request received:', req.body);
-    const {
-      name,
+    console.log('Create emergency request received:', req.body);
+    
+    const { patientName, bloodGroup, units, hospital, location, coordinates, contactPhone, notes } = req.body;
+
+    if (!patientName || !bloodGroup || !units || !hospital || !location || !contactPhone) {
+      return res.status(400).json({ message: 'Please provide all required fields' });
+    }
+
+    const emergencyRequest = new BloodRequest({
+      requester: req.user._id,
+      patientName,
       bloodGroup,
-      quantity,
-      contact,
+      units,
       hospital,
       location,
-      reason,
-      isUrgent
-    } = req.body;
-
-    // Validate required fields
-    if (!name || !bloodGroup || !quantity || !contact || !hospital || !location || !reason) {
-      return res.status(400).json({ message: 'Please fill all required fields' });
-    }
-
-    // Create a new request
-    const newRequest = new BloodRequest({
-      requester: req.user ? req.user._id : null,
-      name,
-      bloodGroup,
-      quantity: parseInt(quantity),
-      contact,
-      hospital,
-      location,
-      reason,
-      isUrgent: isUrgent || false
+      coordinates,
+      contactPhone,
+      urgency: 'emergency', // Set to emergency
+      notes
     });
-    
-    const savedRequest = await newRequest.save();
-    console.log('Blood request created successfully');
 
-    // If this is an urgent request, we would send alerts to matching donors
-    // (in a real app with proper notification system)
-    if (isUrgent) {
-      console.log(`Urgent blood request for ${bloodGroup} at ${hospital}`);
-      
-      // Find matching donors (simplified)
-      const matchingDonors = await User.find({
-        role: 'donor',
-        bloodGroup: bloodGroup,
-        emergencyAlerts: true
-      });
-      
-      console.log(`Found ${matchingDonors.length} matching donors for urgent request`);
-      
-      // In a real app, we would send notifications to these donors
+    const savedRequest = await emergencyRequest.save();
+    console.log('Emergency request created with ID:', savedRequest._id);
+
+    // Notify compatible donors
+    const notificationCount = await notifyCompatibleDonors(savedRequest);
+    console.log(`Notified ${notificationCount} compatible donors`);
+
+    res.status(201).json({
+      message: 'Emergency request created successfully',
+      request: savedRequest,
+      notifiedDonors: notificationCount
+    });
+  } catch (error) {
+    console.error('Create emergency request error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Get all emergency requests
+app.get('/api/emergency/all', protect, async (req, res) => {
+  try {
+    console.log('Get all emergency requests');
+    
+    const emergencyRequests = await BloodRequest.find({
+      urgency: 'emergency',
+      status: 'pending',
+      expiresAt: { $gt: new Date() }
+    })
+    .populate('requester', 'name email phone')
+    .sort({ createdAt: -1 });
+
+    console.log(`Found ${emergencyRequests.length} active emergency requests`);
+    
+    res.json(emergencyRequests);
+  } catch (error) {
+    console.error('Get emergency requests error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Get emergency requests compatible with current user's blood type
+app.get('/api/emergency/compatible', protect, async (req, res) => {
+  try {
+    console.log('Get compatible emergency requests for user:', req.user._id);
+    
+    const user = await User.findById(req.user._id);
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
     }
 
-    res.status(201).json(savedRequest);
-  } catch (error) {
-    console.error('Blood request error:', error);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
+    // Find blood types that can receive from this donor
+    const canDonateTo = Object.entries(bloodCompatibility)
+      .filter(([_, compatibleTypes]) => compatibleTypes.includes(user.bloodGroup))
+      .map(([bloodType, _]) => bloodType);
 
-// Get all blood requests
-app.get('/api/blood/requests', async (req, res) => {
-  try {
-    console.log('Get all blood requests');
-    const bloodRequests = await BloodRequest.find({})
-      .sort({ createdAt: -1 });
+    console.log('User with blood type', user.bloodGroup, 'can donate to:', canDonateTo);
+
+    const emergencyRequests = await BloodRequest.find({
+      urgency: 'emergency',
+      status: 'pending',
+      bloodGroup: { $in: canDonateTo },
+      expiresAt: { $gt: new Date() }
+    })
+    .populate('requester', 'name email phone')
+    .sort({ createdAt: -1 });
+
+    console.log(`Found ${emergencyRequests.length} compatible emergency requests`);
     
-    console.log(`Found ${bloodRequests.length} blood requests`);
-    res.json(bloodRequests);
+    res.json(emergencyRequests);
   } catch (error) {
-    console.error('Get blood requests error:', error);
+    console.error('Get compatible emergency requests error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
 
-// Get user's blood requests
-app.get('/api/blood/my-requests', protect, async (req, res) => {
+// Function to notify compatible donors about emergency requests
+async function notifyCompatibleDonors(request) {
   try {
-    console.log('Get my blood requests for user:', req.user._id);
-    const requests = await BloodRequest.find({ requester: req.user._id })
-      .sort({ createdAt: -1 });
-    
-    console.log(`Found ${requests.length} requests`);
-    res.json(requests);
-  } catch (error) {
-    console.error('Get my requests error:', error);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
+    // Get compatible blood types
+    const compatibleTypes = bloodCompatibility[request.bloodGroup];
+    console.log('Compatible blood types for', request.bloodGroup, ':', compatibleTypes);
 
-// ====================
-// CHATBOT ROUTES
-// ====================
+    // Find donors with compatible blood types who have enabled emergency alerts
+    const compatibleDonors = await User.find({
+      role: 'donor',
+      bloodGroup: { $in: compatibleTypes },
+      emergencyAlerts: true,
+      availability: 'Available'
+    });
 
-// Chatbot Conversation Schema
-const chatbotConversationSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  },
-  sessionId: {
-    type: String,
-    required: true
-  },
-  messages: [
-    {
-      sender: {
-        type: String,
-        enum: ['user', 'bot'],
-        required: true
-      },
-      content: {
-        type: String,
-        required: true
-      },
-      timestamp: {
-        type: Date,
-        default: Date.now
+    console.log(`Found ${compatibleDonors.length} compatible donors to notify`);
+
+    // Store notified donors
+    const notifiedDonorIds = [];
+
+    // Send notifications to compatible donors
+    for (const donor of compatibleDonors) {
+      // Send email notification
+      const emailSent = await sendEmergencyEmail(donor, request);
+      
+      if (emailSent) {
+        notifiedDonorIds.push(donor._id);
+        console.log('Notification sent to donor:', donor.name);
       }
     }
-  ],
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  lastActivity: {
-    type: Date,
-    default: Date.now
-  }
-});
 
-const ChatbotConversation = mongoose.model('ChatbotConversation', chatbotConversationSchema);
+    // Update the request with notified donors
+    await BloodRequest.findByIdAndUpdate(
+      request._id,
+      { $set: { notifiedDonors: notifiedDonorIds } }
+    );
 
-// Chatbot knowledge base
-const knowledgeBase = {
-  greeting: [
-    "Hello! I'm your Blood Donation Assistant. How can I help you today?",
-    "Hi there! I can help you with blood donation questions. What would you like to know?"
-  ],
-  
-  eligibility: [
-    "To donate blood, you generally need to be at least 18 years old, weigh at least 110 pounds, and be in good health. There are some medical conditions and medications that may affect eligibility."
-  ],
-  
-  process: [
-    "The blood donation process is simple: 1) Register and complete a health screening, 2) The actual donation takes about 10-15 minutes, 3) Afterward, you'll rest and enjoy refreshments for 15 minutes before leaving."
-  ],
-  
-  bloodTypes: [
-    "There are 8 different blood types: A+, A-, B+, B-, AB+, AB-, O+, and O-. Type O- is the universal donor, while AB+ is the universal recipient."
-  ],
-  
-  frequency: [
-    "Most people can donate whole blood every 56 days (8 weeks). Platelets can be donated every 7 days up to 24 times per year."
-  ],
-  
-  preparation: [
-    "Before donating: 1) Drink plenty of water, 2) Eat a healthy meal, 3) Avoid fatty foods, 4) Get a good night's sleep, 5) Bring a valid ID."
-  ],
-  
-  benefits: [
-    "Donating blood helps save lives, provides a free health screening, burns calories, reduces the risk of heart disease, and gives a sense of contribution to your community."
-  ],
-  
-  timeRequired: [
-    "The entire process takes about 1 hour, though the actual blood donation only takes about 10-15 minutes."
-  ],
-  
-  finding: [
-    "You can find donors by using our 'Search' feature. You can search by blood type, location, and availability."
-  ],
-  
-  emergency: [
-    "For emergency blood needs, you can create an urgent request through our system, which will alert compatible donors in your area."
-  ],
-  
-  requestingBlood: [
-    "To request blood, go to the 'Request Blood' page, fill out the form with details about the patient and blood requirements, and submit your request."
-  ],
-  
-  donationAppointment: [
-    "To schedule a donation, go to the 'Donate' page and fill out the appointment form. You'll receive a confirmation and reminders."
-  ],
-  
-  fallback: [
-    "I'm sorry, I don't have information on that topic. Would you like to ask about eligibility, the donation process, blood types, or how to request blood?",
-    "I don't understand that question. Try asking about blood donation eligibility, the donation process, or how to use our platform."
-  ]
-};
-
-// Intent matching patterns
-const patterns = {
-  greeting: /\b(hi|hello|hey|greetings|howdy|good (morning|afternoon|evening))\b/i,
-  eligibility: /\b(eligib|requirements|who can donate|can i donate|qualif|criteria)\b/i,
-  process: /\b(process|how (to|does) donat|procedure|steps|what happens)\b/i,
-  bloodTypes: /\b(blood type|types of blood|different blood|compatible|o\-|a\+|b\-)\b/i,
-  frequency: /\b(how (often|frequently)|how many times|frequency|wait between)\b/i,
-  preparation: /\b(prepare|ready|before donat|preparation|what should i do)\b/i,
-  benefits: /\b(benefit|advantage|good|positive|help|impact)\b/i,
-  timeRequired: /\b(how long|time|duration|how much time|minutes|hours)\b/i,
-  finding: /\b(find|search|locate|available|donors near|where)\b/i,
-  emergency: /\b(emergency|urgent|critical|immediate|quickly)\b/i,
-  requestingBlood: /\b(request|need blood|get blood|receive|recipient)\b/i,
-  donationAppointment: /\b(schedule|appointment|book|when can i|sign up)\b/i
-};
-
-// Match user input to intent
-const matchIntent = (input) => {
-  for (const [intent, pattern] of Object.entries(patterns)) {
-    if (pattern.test(input)) {
-      return intent;
-    }
-  }
-  return 'fallback';
-};
-
-// Generate bot response
-const generateResponse = (intent) => {
-  const responses = knowledgeBase[intent] || knowledgeBase.fallback;
-  return responses[Math.floor(Math.random() * responses.length)];
-};
-
-// Chat with the bot
-app.post('/api/chatbot/chat', async (req, res) => {
-  try {
-    console.log('Chatbot message received:', req.body);
-    const { message, sessionId } = req.body;
-    let conversation;
-    
-    // Get or create conversation
-    if (sessionId) {
-      conversation = await ChatbotConversation.findOne({ sessionId });
-    }
-    
-    if (!conversation) {
-      // Create new conversation
-      conversation = new ChatbotConversation({
-        user: req.user ? req.user._id : null,
-        sessionId: sessionId || uuidv4(),
-        messages: []
-      });
-    }
-    
-    // Add user message
-    conversation.messages.push({
-      sender: 'user',
-      content: message
-    });
-    
-    // Generate bot response
-    const intent = matchIntent(message);
-    console.log('Detected intent:', intent);
-    const botResponse = generateResponse(intent);
-    
-    // Add bot response
-    conversation.messages.push({
-      sender: 'bot',
-      content: botResponse
-    });
-    
-    // Update last activity
-    conversation.lastActivity = Date.now();
-    
-    // Save conversation
-    await conversation.save();
-    console.log('Chatbot conversation saved');
-    
-    res.json({
-      sessionId: conversation.sessionId,
-      response: botResponse,
-      messages: conversation.messages
-    });
+    return notifiedDonorIds.length;
   } catch (error) {
-    console.error('Chatbot error:', error);
-    res.status(500).json({ message: error.message });
+    console.error('Error notifying donors:', error);
+    return 0;
   }
-});
-
-// Get conversation history
-app.get('/api/chatbot/conversation/:sessionId', async (req, res) => {
-  try {
-    console.log('Get conversation history for session:', req.params.sessionId);
-    const { sessionId } = req.params;
-    
-    const conversation = await ChatbotConversation.findOne({ sessionId });
-    
-    if (!conversation) {
-      return res.status(404).json({ message: 'Conversation not found' });
-    }
-    
-    res.json({
-      sessionId: conversation.sessionId,
-      messages: conversation.messages
-    });
-  } catch (error) {
-    console.error('Get conversation error:', error);
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Serve static assets in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client/build')));
-  
-  app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-  );
 }
 
-// Start server
+// Send emergency email to donor
+async function sendEmergencyEmail(donor, request) {
+  try {
+    const message = {
+      from: 'emergency@blooddonation.com',
+      to: donor.email,
+      subject: `URGENT: Emergency Blood Request for ${request.bloodGroup}`,
+      html: `
+        <h1>Emergency Blood Request</h1>
+        <p>Dear ${donor.name},</p>
+        <p>There is an urgent need for ${request.bloodGroup} blood at ${request.hospital}.</p>
+        <p><strong>Patient:</strong> ${request.patientName}</p>
+        <p><strong>Units Needed:</strong> ${request.units}</p>
+        <p><strong>Location:</strong> ${request.location}</p>
+        <p><strong>Contact:</strong> ${request.contactPhone}</p>
+        <p><strong>Notes:</strong> ${request.notes || 'N/A'}</p>
+        <p>Your blood type is compatible with the patient's needs. If you can donate, please contact the number above or respond through the app.</p>
+        <p>Thank you for your lifesaving help!</p>
+      `
+    };
+
+    const info = await transporter.sendMail(message);
+    console.log('Emergency email sent:', info.messageId);
+    console.log('Preview URL:', nodemailer.getTestMessageUrl(info));
+    return true;
+  } catch (error) {
+    console.error('Error sending emergency email:', error);
+    return false;
+  }
+}
+
+// ====================
+// SERVER SETUP
+// ====================
+
+// Set port
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

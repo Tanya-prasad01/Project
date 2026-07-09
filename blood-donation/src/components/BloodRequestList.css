@@ -1,0 +1,178 @@
+.blood-requests-container {
+    margin: 2rem auto;
+    max-width: 1000px;
+  }
+  
+  .requests-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .requests-header h2 {
+    color: #333;
+    font-size: 1.8rem;
+    margin: 0;
+  }
+  
+  .create-request-btn {
+    background-color: #e74c3c;
+    color: white;
+    padding: 0.7rem 1.2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  .create-request-btn:hover {
+    background-color: #c0392b;
+  }
+  
+  .blood-requests-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .request-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .urgency-tag {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.5rem 1rem;
+    color: white;
+    font-weight: bold;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+  }
+  
+  .urgency-tag.emergency {
+    background-color: #e74c3c;
+  }
+  
+  .urgency-tag.urgent {
+    background-color: #f39c12;
+  }
+  
+  .urgency-tag.standard {
+    background-color: #3498db;
+  }
+  
+  .request-details {
+    margin-top: 1rem;
+  }
+  
+  .request-details h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  
+  .blood-group-badge {
+    display: inline-block;
+    background-color: #e74c3c;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .request-details p {
+    margin: 0.5rem 0;
+    color: #555;
+  }
+  
+  .status-open {
+    color: #3498db;
+    font-weight: bold;
+  }
+  
+  .status-fulfilled {
+    color: #27ae60;
+    font-weight: bold;
+  }
+  
+  .status-closed {
+    color: #7f8c8d;
+    font-weight: bold;
+  }
+  
+  .request-actions {
+    margin-top: 1.5rem;
+  }
+  
+  .contact-btn {
+    display: block;
+    background-color: #3498db;
+    color: white;
+    text-align: center;
+    padding: 0.8rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  .contact-btn:hover {
+    background-color: #2980b9;
+  }
+  
+  .loading {
+    text-align: center;
+    padding: 2rem;
+    color: #777;
+    font-size: 1.2rem;
+  }
+  
+  .error-message {
+    background-color: #ffebee;
+    color: #e74c3c;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 2rem auto;
+    max-width: 600px;
+    text-align: center;
+  }
+  
+  .no-requests {
+    text-align: center;
+    padding: 3rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+    max-width: 600px;
+  }
+  
+  .no-requests p {
+    color: #777;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+  }
+  
+  @media (max-width: 768px) {
+    .blood-requests-list {
+      grid-template-columns: 1fr;
+    }
+    
+    .requests-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    
+    .blood-requests-container {
+      padding: 0 1rem;
+    }
+  }

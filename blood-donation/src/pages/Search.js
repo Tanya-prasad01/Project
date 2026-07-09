@@ -305,7 +305,9 @@ function Search() {
                 <p><MapPin size={14} /> {donor.location}</p>
                 <p><strong>Blood Type:</strong> {donor.bloodType}</p>
                 <p><strong>Availability:</strong> {donor.availability}</p>
-                <p><strong>Last Donation:</strong> {donor.lastDonation}</p>
+                 {/* ✅ Updated line below with Clock icon */}
+                <p><Clock size={14} style={{ marginRight: '6px', verticalAlign: 'middle' }} /> {donor.lastDonation}</p>
+                {/* <p><strong>Last Donation:</strong> {donor.lastDonation}</p> */}
                 <button className="contact-btn">Contact Donor</button>
               </div>
             ))

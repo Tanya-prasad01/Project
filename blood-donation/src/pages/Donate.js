@@ -191,7 +191,7 @@ function Donate() {
           </section>
 
           <section className="card">
-            <h2>Schedule Donation</h2>
+            <h2>Apply For Donation</h2>
             <form onSubmit={handleSubmit}>
               <label>Full Name</label>
               <input
@@ -250,7 +250,7 @@ function Donate() {
                 required
               />
 
-              <button type="submit">Schedule Appointment</button>
+              <button type="submit">Apply for Donation</button>
             </form>
           </section>
         </div>

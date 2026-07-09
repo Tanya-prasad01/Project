@@ -117,79 +117,450 @@
 // module.exports = mongoose.model('User', userSchema);
 
 
-// models/User.js
+// // models/User.js
+// const mongoose = require('mongoose');
+// const bcrypt = require('bcryptjs');
+
+// const userSchema = new mongoose.Schema({
+//   name: { 
+//     type: String, 
+//     required: true 
+//   },
+//   email: { 
+//     type: String, 
+//     required: true, 
+//     unique: true 
+//   },
+//   phone: { 
+//     type: String, 
+//     required: true 
+//   },
+//   location: { 
+//     type: String, 
+//     required: true 
+//   },
+//   password: { 
+//     type: String, 
+//     required: true 
+//   },
+//   bloodGroup: { 
+//     type: String, 
+//     required: true 
+//   },
+//   role: { 
+//     type: String, 
+//     enum: ['donor', 'receiver'], 
+//     required: true 
+//   },
+//   lastDonation: {
+//     type: Date,
+//     default: null
+//   },
+//   availability: {
+//     type: String,
+//     default: 'Available'
+//   },
+//   coordinates: {
+//     type: {
+//       lat: Number,
+//       lng: Number
+//     },
+//     default: null
+//   },
+//   emergencyAlerts: {
+//     type: Boolean,
+//     default: true
+//   },
+//   createdAt: {
+//     type: Date,
+//     default: Date.now
+//   }
+// });
+
+// // Match password method
+// userSchema.methods.matchPassword = async function(enteredPassword) {
+//   return await bcrypt.compare(enteredPassword, this.password);
+// };
+
+// // Encrypt password before saving
+// userSchema.pre('save', async function(next) {
+//   if (!this.isModified('password')) {
+//     next();
+//   }
+
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash(this.password, salt);
+// });
+
+// module.exports = mongoose.model('User', userSchema);
+
+
+
+
+//the new one with forgot password added features
+// // models/User.js
+// const mongoose = require('mongoose');
+// const bcrypt = require('bcryptjs');
+
+// const userSchema = new mongoose.Schema({
+//   name: { 
+//     type: String, 
+//     required: true 
+//   },
+//   email: { 
+//     type: String, 
+//     required: true, 
+//     unique: true 
+//   },
+//   phone: { 
+//     type: String, 
+//     required: true 
+//   },
+//   location: { 
+//     type: String, 
+//     required: true 
+//   },
+//   password: { 
+//     type: String, 
+//     required: true 
+//   },
+//   bloodGroup: { 
+//     type: String, 
+//     required: true 
+//   },
+//   role: { 
+//     type: String, 
+//     enum: ['donor', 'receiver'], 
+//     required: true 
+//   },
+//   lastDonation: {
+//     type: Date,
+//     default: null
+//   },
+//   availability: {
+//     type: String,
+//     default: 'Available'
+//   },
+//   coordinates: {
+//     type: {
+//       lat: Number,
+//       lng: Number
+//     },
+//     default: null
+//   },
+//   emergencyAlerts: {
+//     type: Boolean,
+//     default: true
+//   },
+//   createdAt: {
+//     type: Date,
+//     default: Date.now
+//   },
+//   resetPasswordToken: String,
+//   resetPasswordExpires: Date
+// });
+
+// // Match password method
+// userSchema.methods.matchPassword = async function(enteredPassword) {
+//   return await bcrypt.compare(enteredPassword, this.password);
+// };
+
+// // Encrypt password before saving
+// userSchema.pre('save', async function(next) {
+//   if (!this.isModified('password')) {
+//     next();
+//   }
+
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash(this.password, salt);
+// });
+
+// module.exports = mongoose.model('User', userSchema);
+
+
+
+
+// //new with forget password
+// const mongoose = require('mongoose');
+// const bcrypt = require('bcryptjs');
+
+// const userSchema = new mongoose.Schema({
+//   name: { 
+//     type: String, 
+//     required: true 
+//   },
+//   email: { 
+//     type: String, 
+//     required: true, 
+//     unique: true 
+//   },
+//   phone: { 
+//     type: String, 
+//     required: true 
+//   },
+//   location: { 
+//     type: String, 
+//     required: true 
+//   },
+//   password: { 
+//     type: String, 
+//     required: true 
+//   },
+//   bloodGroup: { 
+//     type: String, 
+//     required: true 
+//   },
+//   role: { 
+//     type: String, 
+//     enum: ['donor', 'receiver'], 
+//     required: true 
+//   },
+//   lastDonation: {
+//     type: Date,
+//     default: null
+//   },
+//   availability: {
+//     type: String,
+//     default: 'Available'
+//   },
+//   coordinates: {
+//     type: {
+//       lat: Number,
+//       lng: Number
+//     },
+//     default: null
+//   },
+//   emergencyAlerts: {
+//     type: Boolean,
+//     default: true
+//   },
+//   createdAt: {
+//     type: Date,
+//     default: Date.now
+//   },
+//   resetPasswordToken: String,
+//   resetPasswordExpires: Date
+// });
+
+// // 🔒 Password hashing middleware
+// userSchema.pre('save', async function(next) {
+//   if (!this.isModified('password')) return next(); // Skip if not modified
+
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash(this.password, salt);
+//   next();
+// });
+
+// // 🔑 Compare password (used in login)
+// userSchema.methods.matchPassword = async function(enteredPassword) {
+//   return await bcrypt.compare(enteredPassword, this.password);
+// };
+
+// module.exports = mongoose.model('User', userSchema);
+
+
+
+
+// const mongoose = require('mongoose');
+// const bcrypt = require('bcryptjs');
+
+// const userSchema = new mongoose.Schema({
+//   name: { 
+//     type: String, 
+//     required: true 
+//   },
+//   email: { 
+//     type: String, 
+//     required: true, 
+//     unique: true 
+//   },
+//   phone: { 
+//     type: String, 
+//     required: true 
+//   },
+//   location: { 
+//     type: String, 
+//     required: true 
+//   },
+//   password: { 
+//     type: String, 
+//     required: true 
+//   },
+//   bloodGroup: { 
+//     type: String, 
+//     required: true 
+//   },
+//   role: { 
+//     type: String, 
+//     enum: ['donor', 'receiver'], 
+//     required: true 
+//   },
+//   lastDonation: {
+//     type: Date,
+//     default: null
+//   },
+//   availability: {
+//     type: String,
+//     enum: ['Available', 'Unavailable'],
+//     default: 'Available'
+//   },
+//   coordinates: {
+//     lat: { type: Number },
+//     lng: { type: Number }
+//   },
+//   emergencyAlerts: {
+//     type: Boolean,
+//     default: true
+//   },
+//   createdAt: {
+//     type: Date,
+//     default: Date.now
+//   },
+//   resetPasswordToken: String,
+//   resetPasswordExpires: Date
+// });
+
+// // 🔒 Middleware: Hash password before saving
+// userSchema.pre('save', async function (next) {
+//   if (!this.isModified('password')) return next(); // Skip if password is unchanged
+
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash(this.password, salt);
+//   next();
+// });
+
+// // 🔐 Method: Compare input password with hashed password
+// userSchema.methods.matchPassword = async function (enteredPassword) {
+//   return await bcrypt.compare(enteredPassword, this.password);
+// };
+
+// module.exports = mongoose.model('User', userSchema);
+
+
+// const mongoose = require('mongoose');
+// const bcrypt = require('bcryptjs');
+
+// const userSchema = new mongoose.Schema({
+//   name: {
+//     type: String,
+//     required: true,
+//     trim: true
+//   },
+//   email: {
+//     type: String,
+//     required: true,
+//     unique: true,
+//     lowercase: true,
+//     trim: true
+//   },
+//   phone: {
+//     type: String,
+//     required: true,
+//     trim: true
+//   },
+//   location: {
+//     type: String,
+//     required: true,
+//     trim: true
+//   },
+//   password: {
+//     type: String,
+//     required: true
+//   },
+//   bloodGroup: {
+//     type: String,
+//     required: true,
+//     uppercase: true
+//   },
+//   role: {
+//     type: String,
+//     enum: ['donor', 'receiver'],
+//     required: true
+//   },
+//   lastDonation: {
+//     type: Date,
+//     default: null
+//   },
+//   availability: {
+//     type: String,
+//     enum: ['Available', 'Unavailable'],
+//     default: 'Available'
+//   },
+//   coordinates: {
+//     lat: {
+//       type: Number,
+//       default: null
+//     },
+//     lng: {
+//       type: Number,
+//       default: null
+//     }
+//   },
+//   emergencyAlerts: {
+//     type: Boolean,
+//     default: true
+//   },
+//   createdAt: {
+//     type: Date,
+//     default: Date.now
+//   },
+//   resetPasswordToken: String,
+//   resetPasswordExpires: Date
+// });
+
+
+// // 🔐 Pre-save middleware for password hashing
+// userSchema.pre('save', async function (next) {
+//   if (!this.isModified('password')) return next(); // Don't hash if password unchanged
+
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash(this.password, salt);
+//   next();
+// });
+
+
+// // 🔍 Method to compare raw vs hashed password
+// userSchema.methods.matchPassword = async function (enteredPassword) {
+//   return await bcrypt.compare(enteredPassword, this.password);
+// };
+
+// module.exports = mongoose.model('User', userSchema);
+
+
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+// const bcrypt = require('bcryptjs'); // 👈 Temporarily not needed
 
 const userSchema = new mongoose.Schema({
-  name: { 
-    type: String, 
-    required: true 
-  },
-  email: { 
-    type: String, 
-    required: true, 
-    unique: true 
-  },
-  phone: { 
-    type: String, 
-    required: true 
-  },
-  location: { 
-    type: String, 
-    required: true 
-  },
-  password: { 
-    type: String, 
-    required: true 
-  },
-  bloodGroup: { 
-    type: String, 
-    required: true 
-  },
-  role: { 
-    type: String, 
-    enum: ['donor', 'receiver'], 
-    required: true 
-  },
-  lastDonation: {
-    type: Date,
-    default: null
-  },
-  availability: {
-    type: String,
-    default: 'Available'
-  },
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  phone: { type: String, required: true },
+  location: { type: String, required: true },
+  password: { type: String, required: true }, // Plain text password for now
+  bloodGroup: { type: String, required: true },
+  role: { type: String, enum: ['donor', 'receiver'], required: true },
+  lastDonation: { type: Date, default: null },
+  availability: { type: String, enum: ['Available', 'Unavailable'], default: 'Available' },
   coordinates: {
-    type: {
-      lat: Number,
-      lng: Number
-    },
-    default: null
+    lat: { type: Number, default: null },
+    lng: { type: Number, default: null }
   },
-  emergencyAlerts: {
-    type: Boolean,
-    default: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+  emergencyAlerts: { type: Boolean, default: true },
+  createdAt: { type: Date, default: Date.now },
+  resetPasswordToken: String,
+  resetPasswordExpires: Date
 });
 
-// Match password method
-userSchema.methods.matchPassword = async function(enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
-};
+// // 🔒 Commented out password hashing
+// userSchema.pre('save', async function (next) {
+//   if (!this.isModified('password')) return next();
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash(this.password, salt);
+//   next();
+// });
 
-// Encrypt password before saving
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) {
-    next();
-  }
-
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-});
+// // 🔐 Commented out compare method
+// userSchema.methods.matchPassword = async function (enteredPassword) {
+//   return await bcrypt.compare(enteredPassword, this.password);
+// };
 
 module.exports = mongoose.model('User', userSchema);

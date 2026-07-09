@@ -7,7 +7,7 @@ const HeroSection = () => {
     <section id="hero" className="hero">
       <div className="hero-content">
         <h1>Donate Blood, Save Lives</h1>
-        <p>Your one donation can save up to 3 lives.</p>
+        <p className="donate">Your one donation can save up to 3 lives.</p>
         <Link to="/donate" className="cta-button">
         Donate Now
         </Link>
